@@ -1,26 +1,28 @@
 import React from 'react'
-import { useState } from 'react'
+import '../styles/loginRegister.css'
 
 export const Login = ({setRegister}) => {    
   return (
     <>
-        <form>
-            <h2>Login: </h2>
-            <label>
-            Name:
-            <input type="text" name="name" />        
-            <input type="submit" value="Submit" />  
-            <br></br>      
-            Password:
-            <input type="password" name="password" />
-            </label>
-            <input type="submit" value="Submit" />
+        <h2>Login: </h2>
+        <form className='form'>
+          <div className='form-body'>              
+              <label> Name: </label>
+              <input type="text" name="name" />              
+              <br></br>      
+              <label>Password: </label>
+              <input type="password" name="password" />
+                            
+            </div>
+            <div class="footer">
+              <button type="submit" class="btn">Log in</button>
+          </div>
         </form>
-        <button
+        <a className ="registerButton"
         onClick={() => {
           setRegister(false);
         }}
-      > Are you not registered yet? </button>
+      > Are you not registered yet? </a>
     </>
   )
 }

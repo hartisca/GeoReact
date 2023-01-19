@@ -1,0 +1,49 @@
+.form{
+    border: solid 1px rgb(96, 94, 94);
+    border-radius: 30px;
+}
+
+.form-body{
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 3px;
+}
+input{
+    border-radius: 3px;
+}
+
+.registerButton{
+    color: black;    
+}
+
+.username{
+    margin: 5px;
+}
+
+.lastname{
+    margin: 5px;
+}
+
+.email{
+    margin: 5px;
+}
+
+.password{
+    margin: 5px;
+}
+
+.confirm-password{
+    margin: 5px;
+}
+
+.footer{
+    padding: 10px;
+}
+
+.registerButton:hover{
+    cursor: pointer;
+    text-decoration: underline;
+    color: rgb(96, 94, 94);
+}
