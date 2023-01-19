@@ -2,8 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 
 
-function Register() {
-    let [register, setRegister] = useState(true);
+function Register({setRegister}) {
   return (
       <>
     <div className="form">

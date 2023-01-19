@@ -11,7 +11,7 @@ function App() {
     return (
       <div className="Login">
 
-        {register ? <Login /> : <Register />}
+        {register ? <Login setRegister={setRegister} /> : <Register setRegister={setRegister} />}
         
       </div>    
     );

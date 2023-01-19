@@ -1,8 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 
-export const Login = () => {    
-    let [register, setRegister] = useState(true);
+export const Login = ({setRegister}) => {    
   return (
     <>
         <form>
