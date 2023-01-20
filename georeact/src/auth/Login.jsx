@@ -1,7 +1,6 @@
 import React from 'react'
 import '../styles/loginRegister.css'
-
-export const Login = ({setRegister}) => {    
+export default function Login({setRegister}) {    
   return (
     <>
         <h2>Login: </h2>

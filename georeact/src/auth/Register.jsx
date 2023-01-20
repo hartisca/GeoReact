@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import '../styles/loginRegister.css'
 
 
-function Register({setRegister}) {
+export default function Register({setRegister}) {
   return (
       <>
       <h2>Register: </h2>
@@ -42,4 +42,3 @@ function Register({setRegister}) {
   );
 }
 
-export default Register
