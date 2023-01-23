@@ -22,19 +22,11 @@ input{
     margin: 5px;
 }
 
-.lastname{
-    margin: 5px;
-}
-
 .email{
     margin: 5px;
 }
 
-.password{
-    margin: 5px;
-}
-
-.confirm-password{
+.pswd{
     margin: 5px;
 }
 
@@ -46,4 +38,16 @@ input{
     cursor: pointer;
     text-decoration: underline;
     color: rgb(96, 94, 94);
+}
+
+.login1{
+    color: black; 
+}
+.login1:hover{
+    cursor: pointer;
+    text-decoration: underline;
+    color: rgb(96, 94, 94);
+}
+.btn3{
+    align-self: center;
 }

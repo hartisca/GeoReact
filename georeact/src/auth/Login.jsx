@@ -1,27 +1,45 @@
 import React from 'react'
 import '../styles/loginRegister.css'
-export default function Login({setRegister}) {    
+import { useState } from 'react'
+export default function Login({setRegister}) {   
+  let [name, setName] = useState("");
+  let [password, setPassword] = useState("");
+
+  const sendLogin = (e) => {
+    e.preventDefault();
+
+    alert("He enviat les Dades:  " + name + "/" + password);
+  };
   return (
     <>
         <h2>Login: </h2>
         <form className='form'>
-          <div className='form-body'>              
-              <label> Name: </label>
-              <input type="text" name="name" />              
-              <br></br>      
-              <label>Password: </label>
-              <input type="password" name="password" />
-                            
+            <div className='form-body'>              
+                <label> Name: </label>
+                <input type="text" name="name" onChange={(e) => {
+                  setName(e.target.value);}}/>              
+                <br></br>      
+                <label>Password: </label>
+                <input type="password" name="password" onChange={(e) => {
+                  setPassword(e.target.value);}}/>
+                              
             </div>
-            <div class="footer">
-              <button type="submit" class="btn">Log in</button>
-          </div>
+            <div className="footer">
+              <button
+                onClick={(e) => {
+                  sendLogin(e);
+                }}>
+                Fes Login
+              </button>            
+            </div>
         </form>
-        <a className ="registerButton"
+        
+      <a className ="login1"
         onClick={() => {
           setRegister(false);
         }}
-      > Are you not registered yet? </a>
+      > Are you not registered?</a>
+      
     </>
   )
 }
