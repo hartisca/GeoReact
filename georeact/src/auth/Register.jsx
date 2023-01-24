@@ -28,7 +28,34 @@ export default function Register({setRegister}) {
             "/" +
             password2
         );
+        if (password2 !== password) {
+            alert("Els passwords han de coincidir");
+            return false;
+        }
+        fetch("https://backend.insjoaquimmir.cat/api/register", {
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        method: "POST",
+        // Si els noms i les variables coincideix, podem simplificar
+        body: JSON.stringify({ name, email, password })
+        })
+        .then((data) => data.json())
+        .then((resposta) => {
+            console.log(resposta);
+            if (resposta.success === true) {
+                alert(resposta.authToken);
+            } else{
+                const errores = document.getElementsByClassName("errores")[0];
+                errores.innerHTML = resposta.message;
+                errores.removeAttribute("hidden");
+            }
+        })       
+
+        alert("He enviat les Dades:  " + email + "/" + password);
     };
+    
   return (
       <>
       <h2>Register: </h2>
@@ -46,6 +73,8 @@ export default function Register({setRegister}) {
             Confirm Password:
             <input className="pswd" name="password2" type="password" onChange={handleChange} />
             <br />
+            <div className='errores' hidden></div>  
+
             <button className="btn3"
                 onClick={(e) => {
                 handleRegister(e);
@@ -59,4 +88,5 @@ export default function Register({setRegister}) {
         onClick={() => {
             setRegister(true);
         }}> Already registered? </a>     
-    </>)}
+    </>
+)};

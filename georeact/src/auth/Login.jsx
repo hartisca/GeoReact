@@ -2,28 +2,52 @@ import React from 'react'
 import '../styles/loginRegister.css'
 import { useState } from 'react'
 export default function Login({setRegister}) {   
-  let [name, setName] = useState("");
+  let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
 
   const sendLogin = (e) => {
     e.preventDefault();
 
-    alert("He enviat les Dades:  " + name + "/" + password);
+      console.log("Comprovant credencials....");
+      // Enviam dades a l'aPI i recollim resultat
+      fetch("https://backend.insjoaquimmir.cat/api/login", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({ email: email, password: password })
+      })
+        .then((data) => data.json())
+        .then((resposta) => {
+          console.log(resposta);
+          if (resposta.success === true) {
+            alert(resposta.authToken);
+            alert("He enviat les Dades:  " + email + "/" + password);            
+
+          }else{
+            const errores = document.getElementsByClassName("errores")[0];
+            errores.innerHTML = resposta.message;
+            errores.removeAttribute('hidden');           
+          }
+        })
+
   };
   return (
     <>
         <h2>Login: </h2>
         <form className='form'>
             <div className='form-body'>              
-                <label> Name: </label>
-                <input type="text" name="name" onChange={(e) => {
-                  setName(e.target.value);}}/>              
+                <label> Email: </label>
+                <input type="email" name="email" onChange={(e) => {
+                  setEmail(e.target.value);}}/>   
+                         
                 <br></br>      
                 <label>Password: </label>
                 <input type="password" name="password" onChange={(e) => {
-                  setPassword(e.target.value);}}/>
-                              
+                  setPassword(e.target.value);}}/>                              
             </div>
+            <div className='errores' hidden></div>  
             <div className="footer">
               <button
                 onClick={(e) => {

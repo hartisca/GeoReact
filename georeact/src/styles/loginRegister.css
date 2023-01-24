@@ -30,6 +30,15 @@ input{
     margin: 5px;
 }
 
+.errores{
+    border: solid red 1px;
+    background-color: rgb(243, 51, 51);
+    border-radius: 20px;
+    width: 90%;
+    margin-left: 8px;
+    color: black;    
+}
+
 .footer{
     padding: 10px;
 }
