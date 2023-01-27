@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import '../styles/loginRegister.css'
 import { useState } from 'react'
+import { UserContext } from '../userContext';
 export default function Login({setRegister}) {   
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
+  let { authToken, setAuthToken } = useContext(UserContext)
 
   const sendLogin = (e) => {
     e.preventDefault();
@@ -23,7 +25,8 @@ export default function Login({setRegister}) {
           console.log(resposta);
           if (resposta.success === true) {
             alert(resposta.authToken);
-            alert("He enviat les Dades:  " + email + "/" + password);            
+            alert("He enviat les Dades:  " + email + "/" + password);     
+            setAuthToken(resposta.authToken);       
 
           }else{
             const errores = document.getElementsByClassName("errores")[0];

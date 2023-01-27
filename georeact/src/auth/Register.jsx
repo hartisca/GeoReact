@@ -1,10 +1,12 @@
 import React from 'react';
 import '../styles/loginRegister.css'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { UserContext } from '../userContext';
 
 
 export default function Register({setRegister}) {
     let [formulari, setFormulari] = useState({});
+    let { authToken, setAuthToken } = useContext(UserContext)
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -46,6 +48,7 @@ export default function Register({setRegister}) {
             console.log(resposta);
             if (resposta.success === true) {
                 alert(resposta.authToken);
+                setAuthToken(resposta.authToken); 
             } else{
                 const errores = document.getElementsByClassName("errores")[0];
                 errores.innerHTML = resposta.message;
