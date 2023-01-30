@@ -27,7 +27,11 @@ body{
 .header{
   margin-top: 0;
   display: flex;
-  justify-content: space-between;  
+  justify-content: space-between;
+ 
+}
+.links{
+  margin: 6px;
 }
 
 

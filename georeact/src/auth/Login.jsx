@@ -23,9 +23,7 @@ export default function Login({setRegister}) {
         .then((data) => data.json())
         .then((resposta) => {
           console.log(resposta);
-          if (resposta.success === true) {
-            alert(resposta.authToken);
-            alert("He enviat les Dades:  " + email + "/" + password);     
+          if (resposta.success === true) {             
             setAuthToken(resposta.authToken);       
 
           }else{

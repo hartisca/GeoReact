@@ -5,6 +5,7 @@ import './styles/loginRegister.css'
 import "./App.css";
 
 import About from "./About";
+import NotFound from "./NotFound";
 
 import Header from "./layout/Header";
 import Footer from "./layout/Footer";
@@ -29,6 +30,7 @@ export default function App() {
             </div>
             <div className="container">
               <Routes>              
+              <Route path="*" element={<NotFound />} />
               <Route path="/" element={<About />} />
               <Route path="/about" element={<About />} />
               </Routes>
