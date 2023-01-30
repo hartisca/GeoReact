@@ -1,14 +1,11 @@
-import Login from "./auth/Login";
-import Register from "./auth/Register";
 import { UserContext } from "./userContext";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-
+import './styles/loginRegister.css'
+import "./App.css";
 
 import About from "./About";
 
-import './styles/loginRegister.css'
-import "./App.css";
 import Header from "./layout/Header";
 import Footer from "./layout/Footer";
 import LoginRegister from "./auth/LoginRegister";
@@ -26,12 +23,22 @@ export default function App() {
       >
         {authToken ? (
           <>
-            <Header />
+          <div className="bigbox">
+            <div className="header">
+              <Header />
+            </div>
+            <div className="container">
               <Routes>              
-                      
-                <Route path="/about" element={<About />} />
+              <Route path="/" element={<About />} />
+              <Route path="/about" element={<About />} />
               </Routes>
+            </div>
+
+            <div className="footer">
               <Footer />
+            </div>
+          </div>
+              
           </>
         ) : (
           <LoginRegister />

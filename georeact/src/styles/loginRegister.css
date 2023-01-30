@@ -60,3 +60,10 @@ input{
 .btn3{
     align-self: center;
 }
+
+.logout{
+    color: black; 
+    cursor: pointer;
+    text-decoration: underline;
+    color: rgb(96, 94, 94);
+}
