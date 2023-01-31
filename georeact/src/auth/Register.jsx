@@ -8,33 +8,31 @@ export default function Register({setRegister}) {
     let [formulari, setFormulari] = useState({});
     let { authToken, setAuthToken } = useContext(UserContext)
 
-    const handleChange = (e) => {
+
+    const handleChange = async(e) => {
         e.preventDefault();
 
-        setFormulari({
-        ...formulari,
-        [e.target.name]: e.target.value
-        });
-    };
-    const handleRegister = (e) => {
+        try{
+            setFormulari({
+            ...formulari,
+            [e.target.name]: e.target.value
+            });
+        }
+        catch{
+            console.log("Catch");
+        }
+    }
+        
+    const handleRegister = async(e) => {
         e.preventDefault();
 
         let { name, password, password2, email } = formulari;
-        alert(
-        "He enviat les Dades:  " +
-            name +
-            "/" +
-            email +
-            "/" +
-            password +
-            "/" +
-            password2
-        );
         if (password2 !== password) {
             alert("Els passwords han de coincidir");
             return false;
         }
-        fetch("https://backend.insjoaquimmir.cat/api/register", {
+        try{
+            const data = await fetch("https://backend.insjoaquimmir.cat/api/register", {
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json"
@@ -42,21 +40,20 @@ export default function Register({setRegister}) {
         method: "POST",
         // Si els noms i les variables coincideix, podem simplificar
         body: JSON.stringify({ name, email, password })
-        })
-        .then((data) => data.json())
-        .then((resposta) => {
-            console.log(resposta);
-            if (resposta.success === true) {
-                alert(resposta.authToken);
-                setAuthToken(resposta.authToken); 
-            } else{
-                const errores = document.getElementsByClassName("errores")[0];
-                errores.innerHTML = resposta.message;
-                errores.removeAttribute("hidden");
-            }
-        })       
+        });
 
-        alert("He enviat les Dades:  " + email + "/" + password);
+        const resposta = await data.json();
+        if (resposta.success === true) {
+            console.log(resposta);
+            setAuthToken(resposta.authToken); 
+        } else {
+            const errores = document.getElementsByClassName("errores")[0];
+            errores.innerHTML = resposta.message;
+            errores.removeAttribute("hidden");
+        }}
+        catch{
+            console.log('Error');
+        }
     };
     
   return (

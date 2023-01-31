@@ -7,32 +7,33 @@ export default function Login({setRegister}) {
   let [password, setPassword] = useState("");
   let { authToken, setAuthToken } = useContext(UserContext)
 
-  const sendLogin = (e) => {
-    e.preventDefault();
+  const sendLogin = async(e) => {
+    try{
+      e.preventDefault();
 
-      console.log("Comprovant credencials....");
-      // Enviam dades a l'aPI i recollim resultat
-      fetch("https://backend.insjoaquimmir.cat/api/login", {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify({ email: email, password: password })
-      })
-        .then((data) => data.json())
-        .then((resposta) => {
-          console.log(resposta);
-          if (resposta.success === true) {             
-            setAuthToken(resposta.authToken);       
-
+        console.log("Comprovant credencials....");
+        // Enviam dades a l'aPI i recollim resultat
+        const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          body: JSON.stringify({ email: email, password: password })
+        });
+        
+        const resposta = await data.json();
+          if(resposta.success === true){
+            setAuthToken(resposta.authToken);
           }else{
-            const errores = document.getElementsByClassName("errores")[0];
-            errores.innerHTML = resposta.message;
-            errores.removeAttribute('hidden');           
-          }
-        })
-
+              const errores = document.getElementsByClassName("errores")[0];
+              errores.innerHTML = resposta.message;
+              errores.removeAttribute('hidden');           
+            }}
+    catch (error){
+      console.error(error)
+      console.log('Error');
+    }
   };
   return (
     <>

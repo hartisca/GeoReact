@@ -6,6 +6,8 @@ import "./App.css";
 
 import About from "./About";
 import NotFound from "./NotFound";
+import { Post } from './Posts/Post';
+import { PostMenu } from './Posts/PostMenu';
 
 import Header from "./layout/Header";
 import Footer from "./layout/Footer";
@@ -30,9 +32,14 @@ export default function App() {
             </div>
             <div className="container">
               <Routes>              
-              <Route path="*" element={<NotFound />} />
-              <Route path="/" element={<About />} />
-              <Route path="/about" element={<About />} />
+                <Route path="*" element={<NotFound />} />
+                <Route path="/" element={<Post />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/posts/:id" element={ <><PostMenu/><Post/></> } />
+                <Route path="/posts/add" element={ <><PostMenu/><PostAdd/></> } /> 
+                <Route path="/posts/edit/:id" element={ <><PostMenu/><PostEdit/></> } /> 
+                <Route path="/posts/grid" element={ <><PostMenu/><PostGrid/></> } /> 
+                <Route path="/posts/list" element={ <><PostMenu/><PostList/> </> } />
               </Routes>
             </div>
 

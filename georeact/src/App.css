@@ -34,6 +34,7 @@ header{
   justify-content: space-between;
   height: 100px;
   padding: 0 2rem;
+  
 
 }
 
@@ -55,12 +56,25 @@ nav .Link{
   color: rgb(96, 94, 94);
 }
 
-nav .Link:hover{
-  width: 110px;
+nav .Link:hover{  
   font-size: 1.01em;  
   color: rgb(89, 89, 199);
 }
 
 header p{
   margin: 15px;
+}
+
+/* boto pel menú d'usuari 
+.navbar-toggler{
+  background: none;
+  border: 0;
+  color: inherit;
+  overflow: visible;
+  padding: 0;
+}
+*/
+
+.botoncito{
+width: 100px;
 }

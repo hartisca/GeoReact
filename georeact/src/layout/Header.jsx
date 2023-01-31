@@ -1,10 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../userContext";
+import Dropdown from 'react-bootstrap/Dropdown';
+
+import { IoMdArrowDropdown } from 'react-icons/io';
 
 export default function Header() {
   let { authToken, setAuthToken } = useContext(UserContext);
   let [ user, setUser ] = useState('');
+  let [ roles, setRoles ] = useState([]);
   
   const logOut = async () => {
     try{
@@ -18,7 +22,7 @@ export default function Header() {
       });
       const resposta = await data.json();
         if (resposta.success === true){
-          setAuthToken("");
+          setAuthToken("");          
         }
     }
     catch{
@@ -40,6 +44,7 @@ export default function Header() {
         if (resposta.success === true){
           console.log(resposta);
           setUser(resposta.user.name);
+          setRoles(resposta.roles);
         }
     }
     catch{
@@ -55,18 +60,23 @@ export default function Header() {
   return (
     <>
     <h3 className="title">GeoReact</h3>
-    <header>      
+    <header className="header">        
       <nav>
         <Link to="/posts" className="Link">Posts</Link>
         <Link to="/places" className="Link">Places</Link>
         <Link to="/about" className="Link">About</Link>                 
-      </nav>
-      <p>{user}</p>
+      </nav>     
+        
+      <button class="navbar-toggler botoncito" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+        {user} <IoMdArrowDropdown />
+      </button>      
+      
+      <p>{roles.map (  (v)=> ( <span key={v}> {v} </span> ) ) }</p>
       <a className="logout"
         onClick={(e) => {
           logOut(e);
-        }}>Logout </a>          
-    </header>
-      
+        }}>Logout </a> 
+                             
+    </header>      
     </>
   )}
