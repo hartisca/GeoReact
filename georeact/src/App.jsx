@@ -34,12 +34,11 @@ export default function App() {
               <Routes>              
                 <Route path="*" element={<NotFound />} />
                 <Route path="/" element={<Post />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/posts/:id" element={ <><PostMenu/><Post/></> } />
-                <Route path="/posts/add" element={ <><PostMenu/><PostAdd/></> } /> 
-                <Route path="/posts/edit/:id" element={ <><PostMenu/><PostEdit/></> } /> 
-                <Route path="/posts/grid" element={ <><PostMenu/><PostGrid/></> } /> 
-                <Route path="/posts/list" element={ <><PostMenu/><PostList/> </> } />
+                <Route path="/posts" element={<PostList />} />
+                <Route path="/posts/add" element={<PostAdd />} />
+                <Route path="/posts/edit/id" element={<PostEdit />} />
+                <Route path="/posts/grid" element={<PostsGrid />} />
+                <Route path="/posts/list" element={<PostsList />} />                               
               </Routes>
             </div>
 
