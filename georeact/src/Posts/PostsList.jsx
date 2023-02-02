@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from "../userContext";
-import PostList from './PostList';
+import PostList from './PostsList';
 
 function PostsList() {
     let { authToken, setAuthToken } = useContext(UserContext);
@@ -28,9 +28,7 @@ function PostsList() {
         }
     }
 
-    useEffect(() => {
-        getPosts();
-      }, []);
+    useEffect(() => { getPosts(); }, []);
 
     return (
         <table className='postTable'>
@@ -44,10 +42,11 @@ function PostsList() {
                     <th>Longitude</th>
                     <th>Likes</th>
                 </tr>
-                { posts.map ( (post)=> (              
-                (<tr key={post.id}>
-                    <PostList post={post} /></tr>)
-                ))}
+                { posts.map ( (post)=> (
+                    ( post.visibility.name != 'private' || userEmail == post.author.email) &&       
+                    (<tr key={post.id}>
+                        <PostList post={post} /></tr>)
+                    ))}
             </tbody>
         </table>
     )

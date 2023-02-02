@@ -2,10 +2,12 @@ import React, { useContext } from 'react'
 import '../styles/loginRegister.css'
 import { useState } from 'react'
 import { UserContext } from '../userContext';
+
+
 export default function Login({setRegister}) {   
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
-  let { authToken, setAuthToken } = useContext(UserContext)
+  let { userEmail, setUserEmail, authToken, setAuthToken } = useContext(UserContext)
 
   const sendLogin = async(e) => {
     try{
@@ -25,6 +27,7 @@ export default function Login({setRegister}) {
         const resposta = await data.json();
           if(resposta.success === true){
             setAuthToken(resposta.authToken);
+            setUserEmail(email);
           }else{
               const errores = document.getElementsByClassName("errores")[0];
               errores.innerHTML = resposta.message;
