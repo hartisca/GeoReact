@@ -2,8 +2,7 @@ import React from 'react'
 
 function PostEdit() {
   return (
-    <div>PostEdit</div>
-  )
-}
+    <div>Post</div>
+)}
 
 export default PostEdit

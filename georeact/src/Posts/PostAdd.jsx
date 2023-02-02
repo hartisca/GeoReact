@@ -2,7 +2,7 @@ import React from 'react'
 
 function PostAdd() {
   return (
-    <div>PostAdd</div>
+    <div>Post </div>
   )
 }
 

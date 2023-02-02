@@ -2,7 +2,7 @@ import React from 'react'
 
 function PostsGrid() {
   return (
-    <div>PostsGrid</div>
+    <div>Post {id}</div>
   )
 }
 

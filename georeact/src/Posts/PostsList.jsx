@@ -1,25 +1,56 @@
-import React from 'react'
-import Post from './Post';
-
+import React, { useState, useContext, useEffect } from 'react';
+import { UserContext } from "../userContext";
+import PostList from './PostList';
 
 function PostsList() {
-  return (
-    <>
-        <td>{Post.id}</td>        
-        <td>{Post.author.name}</td>
-        <td>{Post.latitude}</td>
-        <td>{Post.longitude}</td>
-        <td>{Post.visibility.name}</td>
-        <td>{Post.body}</td>
-        <td><Link className="headerLink" to={"/posts/" +Post.id}><i className="bi bi-eye"></i></Link></td>
-        
-        {(usuari == place.author.email ) &&  
-        <td><Link className="headerLink" to={"/posts/edit/" +Post.id}><i className="bi bi-pencil-square"></i></Link></td>}
+    let { authToken, setAuthToken } = useContext(UserContext);
+    let [posts, setPosts] = useState([]);
 
-         {(usuari == post.author.email ) ?  
-        <td><i className="bi bi-trash3"></i></td> : <td/>}
-    </>
-  )
+    const getPosts = async (e) =>{
+        try{
+            const data = await fetch ('https://backend.insjoaquimmir.cat/api/posts',{
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer '  + authToken,
+                  },
+                  method: "GET"
+            })
+            const resposta = await data.json();
+            if (resposta.success === true){
+                setPosts(resposta.data);
+                console.log(resposta);
+            } else{
+                alert('Error en la resposta!')
+            }
+        } catch{
+            console.log('Error');
+        }
+    }
+
+    useEffect(() => {
+        getPosts();
+      }, []);
+
+    return (
+        <table className='postTable'>
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <th>Author</th>
+                    <th>Comment number</th>
+                    <th>Body</th>                    
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Likes</th>
+                </tr>
+                { posts.map ( (post)=> (              
+                (<tr key={post.id}>
+                    <PostList post={post} /></tr>)
+                ))}
+            </tbody>
+        </table>
+    )
 }
 
 export default PostsList

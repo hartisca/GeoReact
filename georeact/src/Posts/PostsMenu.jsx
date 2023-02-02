@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 
 function PostsMenu() {
   return (
-    <div className='PostMenu'>
-        <Link className="MenuLinks" to="/posts/add">Add a Post</Link>
-        <Link className="MenuLinks" to="/posts/grid"> Grid </Link>
-        <Link className="MenuLinks" to="/posts/list"> List </Link>       
-      </div>
+      <>
+    <div className='postsMenu'>
+        <Link to="/posts/add" className=''>Add Post </Link>
+        <Link to="/posts/grid" className=''>Grid </Link>        
+        <Link to="/posts/list" className=''>List</Link>
+    </div>
+    </>
   )
 }
 
