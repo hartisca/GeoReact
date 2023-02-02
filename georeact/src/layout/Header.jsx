@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../userContext";
-import Dropdown from 'react-bootstrap/Dropdown';
 
 import { IoMdArrowDropdown } from 'react-icons/io';
 
@@ -67,7 +66,7 @@ export default function Header() {
         <Link to="/about" className="Link">About</Link>                 
       </nav>     
         
-      <button class="navbar-toggler botoncito" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+      <button className="navbar-toggler botoncito" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
         {user} <IoMdArrowDropdown />
       </button>      
       

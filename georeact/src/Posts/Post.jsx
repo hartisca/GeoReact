@@ -1,9 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
+import { UserContext } from '../userContext';
 
-export const Post = () => {
-    const { id } = useParams();
+function Post() {
+  const { id } = useParams();
   return (
-    <div>Post {id} </div>
+    <div>Post {id}</div>
   )
 }
+
+export default Post
