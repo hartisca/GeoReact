@@ -28,7 +28,15 @@ export default function App() {
           <>
             <Header />
               <Routes>              
-                      
+                
+                <Route path="/places/:add" element={ <PlaceAdd/> } />
+                <Route path="/places/:id" element={ <Place/> } />
+                <Route path="/places/edit/:id" element={ <PlaceEdit/> } />
+                <Route path="/places/grid" element={ <PlacesGrid/> } />
+                <Route path="/places/list" element={ <PlacesList/> } />
+               
+
+
                 <Route path="/about" element={<About />} />
               </Routes>
               <Footer />
