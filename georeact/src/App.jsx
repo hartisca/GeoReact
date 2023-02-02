@@ -3,7 +3,7 @@ import Register from "./auth/Register";
 import { UserContext } from "./userContext";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-
+import { PlacesMenu, PlacesGrid, PlaceAdd, PlaceEdit ,PlacesList, Place  } from "places";  
 
 import About from "./About";
 
@@ -32,7 +32,7 @@ export default function App() {
                 <Route path="/places/:add" element={ <PlaceAdd/> } />
                 <Route path="/places/:id" element={ <Place/> } />
                 <Route path="/places/edit/:id" element={ <PlaceEdit/> } />
-                <Route path="/places/grid" element={ <PlacesGrid/> } />
+                <Route path="/places/grid" element={ <> <PlacesMenu/><PlacesGrid /> </>} />
                 <Route path="/places/list" element={ <PlacesList/> } />
                
 
