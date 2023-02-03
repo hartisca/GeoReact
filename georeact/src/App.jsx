@@ -20,7 +20,7 @@ import PostsList from './Posts/PostsList';
 export default function App() {
   // difere`cnai entre emprar i no emprar state
 
-  let [authToken, setAuthToken] = useState("");
+  let [ authToken, setAuthToken ] = useState("");
   let [ usuari, setUsuari ] = useState("");
   let [ email, setUserEmail ] = useState("");
   
@@ -59,7 +59,6 @@ export default function App() {
               <Footer />
             </div>
           </div>
-              
           </>
         ) : (
           <LoginRegister />
