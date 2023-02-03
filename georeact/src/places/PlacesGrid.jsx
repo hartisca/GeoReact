@@ -1,9 +1,7 @@
 import React from 'react'
 
-function PlacesGrid() {
+export const PlacesGrid = () => {
   return (
-    <div>Place {id}</div>
+    <div>PlacesGrid</div>
   )
 }
-
-export default PlacesGrid

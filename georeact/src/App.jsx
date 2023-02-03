@@ -1,9 +1,14 @@
-import Login from "./auth/Login";
-import Register from "./auth/Register";
+
 import { UserContext } from "./userContext";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { PlacesMenu, PlacesGrid, PlaceAdd, PlaceEdit ,PlacesList, Place  } from "places";  
+import { PlacesMenu } from "./places/PlacesMenu";  
+import { PlacesGrid } from "./places/PlacesGrid"; 
+import { PlaceAdd } from "./places/PlaceAdd"; 
+import { PlaceEdit  } from "./places/PlaceEdit"; 
+import { PlacesList } from "./places/PlacesList";
+//import { PlaceList } from "./places/PlaceList";
+import { Place  } from "./places/Place"; 
 
 import About from "./About";
 
@@ -29,14 +34,11 @@ export default function App() {
             <Header />
               <Routes>              
                 
-                <Route path="/places/:add" element={ <PlaceAdd/> } />
-                <Route path="/places/:id" element={ <Place/> } />
+                <Route path="/places/add" element={ <PlaceAdd/> } />
                 <Route path="/places/edit/:id" element={ <PlaceEdit/> } />
                 <Route path="/places/grid" element={ <> <PlacesMenu/><PlacesGrid /> </>} />
                 <Route path="/places/list" element={ <PlacesList/> } />
-               
-
-
+                <Route path="/places/:id" element={ <Place/> } />
                 <Route path="/about" element={<About />} />
               </Routes>
               <Footer />

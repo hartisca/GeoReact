@@ -1,8 +1,7 @@
 import React from 'react'
 
-function PlaceEdit() {
+export const PlaceEdit = () => {
   return (
-    <div>Place</div>
-)}
-
-export default PlaceEdit
+    <div>PlaceEdit</div>
+  )
+}

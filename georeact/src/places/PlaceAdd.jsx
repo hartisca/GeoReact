@@ -1,9 +1,7 @@
 import React from 'react'
 
-function PlaceAdd() {
+export const PlaceAdd = () => {
   return (
-    <div>Place </div>
+    <div>PlaceAdd</div>
   )
 }
-
-export default PlaceAdd

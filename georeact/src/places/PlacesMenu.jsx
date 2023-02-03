@@ -1,9 +1,10 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
-function PlaceMenu() {
+export const PlacesMenu = () => {
   return (
-      <>
+    <>
+    
     <div className='placesMenu'>
         <Link to="/places/add" className=''>Add Place </Link>
         <Link to="/places/grid" className=''>Grid </Link>        
@@ -12,5 +13,3 @@ function PlaceMenu() {
     </>
   )
 }
-
-export default PlaceMenu
