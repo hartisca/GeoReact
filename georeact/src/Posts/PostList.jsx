@@ -1,6 +1,6 @@
 import React from 'react'
 
-function PostList() {
+function PostList({post}) {
   return (
       <>
         <td>{post.id}</td>

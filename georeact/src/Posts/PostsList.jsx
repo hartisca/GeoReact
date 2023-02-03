@@ -33,23 +33,28 @@ function PostsList() {
       }, []);
 
     return (
-        <table className='postTable'>
-            <tbody>
-                <tr>
-                    <th>Id</th>
-                    <th>Author</th>
-                    <th>Comment number</th>
-                    <th>Body</th>                    
-                    <th>Latitude</th>
-                    <th>Longitude</th>
-                    <th>Likes</th>
-                </tr>
-                { posts.map ( (post)=> (              
-                (<tr key={post.id}>
-                    <PostList post={post} /></tr>)
-                ))}
-            </tbody>
-        </table>
+        <>
+            <table className='postTable'>
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <th>Author</th>
+                        <th>Comment number</th>
+                        <th>Body</th>                    
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Likes</th>
+                    </tr>
+                    
+                    { posts.map ( (post)=> (                
+                    (<tr key={post.id}>
+                        <PostList post={post} />
+                    </tr>)
+                    ))}
+                    
+                </tbody>
+            </table>
+        </>
     )
 }
 
