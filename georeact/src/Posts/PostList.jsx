@@ -2,12 +2,12 @@ import React from 'react'
 import { useContext } from "react";
 import { UserContext } from "../userContext";
 
-function PostList(post) {
+function PostList({post}) {
   let { userEmail, setUserEmail } = useContext(UserContext);
   return (    
       <>
         <td>{post.id}</td>
-        <td>{post.author}</td>
+        <td>{post.author.name}</td>
         <td>{post.comments_count}</td>                        
         <td>{post.latitude}</td>
         <td>{post.longitude}</td>

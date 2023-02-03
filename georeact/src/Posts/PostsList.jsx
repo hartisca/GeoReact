@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from "../userContext";
-import PostList from './PostsList';
+import PostList from './PostList';
 
 function PostsList() {
     let { authToken, setAuthToken } = useContext(UserContext);
@@ -8,6 +8,7 @@ function PostsList() {
 
     const getPosts = async (e) =>{
         try{
+            
             const data = await fetch ('https://backend.insjoaquimmir.cat/api/posts',{
                 headers: {
                     Accept: "application/json",
@@ -28,7 +29,9 @@ function PostsList() {
         }
     }
 
-    useEffect(() => { getPosts(); }, []);
+    useEffect(() => { 
+        getPosts();
+     }, []);
 
     return (
         <table className='postTable'>
