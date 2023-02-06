@@ -36,17 +36,16 @@ export default function App() {
         {authToken ? (
           <>
           <div className="bigbox">
-            <div className="header">
+            <div>
               <Header />
             </div>
             <div className="container">
               <Routes>              
                 <Route path="*" element={<NotFound />} />
                 <Route path="/" element={<><PostsMenu /><Post /> </>} />
-                <Route path="/posts" element={<Post />} />
+                <Route path="/posts" element={<><PostsMenu /><Post /> </>} />
 
-                <Route path="/posts/list" element={<><PostsMenu /><PostsList /> </>} />  
-
+                <Route path="/posts/list" element={<><PostsMenu /><PostsList /> </>} />
                 <Route path="/posts/add" element={<><PostsMenu /><PostAdd /> </>} />
                 <Route path="/posts/edit/:id" element={<><PostsMenu /><PostEdit /> </>} />
                 <Route path="/posts/grid" element={<><PostsMenu /><PostsGrid /> </>} />

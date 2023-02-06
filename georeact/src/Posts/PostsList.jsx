@@ -3,9 +3,9 @@ import { UserContext } from "../userContext";
 import PostList from './PostList';
 
 function PostsList() {
-    let { authToken, setAuthToken } = useContext(UserContext);
+    let { authToken, setAuthToken, userEmail, setUserEmail } = useContext(UserContext);
     let [posts, setPosts] = useState([]);
-
+   
     const getPosts = async (e) =>{
         try{
             
@@ -39,9 +39,9 @@ function PostsList() {
                 <tr>
                     <th>Id</th>
                     <th>Author</th>
-                    <th>Comment number</th>
-                    <th>Body</th>                    
-                    <th>Latitude</th>
+                    <th>Body</th>
+                    <th>Comments</th>
+                    <th>Latitude</th>                    
                     <th>Longitude</th>
                     <th>Likes</th>
                 </tr>

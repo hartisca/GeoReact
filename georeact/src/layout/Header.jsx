@@ -58,8 +58,8 @@ export default function Header() {
 
   return (
     <>
-    <h3 className="title">GeoReact</h3>
-    <header className="header">        
+    <header className="header">  
+      <h3 className="title">GeoReact</h3>      
       <nav>
         <Link to="/posts" className="Link">Posts</Link>
         <Link to="/places" className="Link">Places</Link>
