@@ -9,10 +9,10 @@ function PlacesList(post) {
       <>
         <td>{post.id}</td>
         <td>{post.author}</td>
-        <td>{post.comments_count}</td>                        
+        <td>{post.description}</td>                        
         <td>{post.latitude}</td>
         <td>{post.longitude}</td>
-        <td>{post.favs_count}</td> 
+        <td>{post.visibility}</td> 
 
         {(userEmail == place.author.email) ?
           <td>
