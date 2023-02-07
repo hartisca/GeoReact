@@ -13,3 +13,4 @@ export const PlacesMenu = () => {
     </>
   )
 }
+export default PlacesMenu

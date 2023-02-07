@@ -24,4 +24,3 @@ function PlaceList({place}) {
   )
 }
 
-export default PlaceList

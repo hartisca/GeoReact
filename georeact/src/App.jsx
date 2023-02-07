@@ -7,10 +7,12 @@ import { PlacesGrid } from "./places/PlacesGrid";
 import { PlaceAdd } from "./places/PlaceAdd"; 
 import { PlaceEdit  } from "./places/PlaceEdit"; 
 import { PlacesList } from "./places/PlacesList";
-//import { PlaceList } from "./places/PlaceList";
 import { Place  } from "./places/Place"; 
 
-import About from "./About";
+
+
+
+
 
 import './styles/loginRegister.css'
 import "./App.css";
@@ -19,7 +21,7 @@ import Footer from "./layout/Footer";
 import LoginRegister from "./auth/LoginRegister";
 
 export default function App() {
-  // difere`cnai entre emprar i no emprar state
+
 
   let [authToken, setAuthToken] = useState("");
 
@@ -32,15 +34,17 @@ export default function App() {
         {authToken ? (
           <>
             <Header />
+
               <Routes>              
-                
+                <Route path="/" element={ <> <PlacesMenu/> <PlacesList/>  </>} />
                 <Route path="/places/add" element={ <PlaceAdd/> } />
-                <Route path="/places/edit/:id" element={ <PlaceEdit/> } />
+                <Route path="/places/edit/:id" element={ <> <PlacesMenu/><PlaceEdit/> </> } />
                 <Route path="/places/grid" element={ <> <PlacesMenu/><PlacesGrid /> </>} />
-                <Route path="/places/list" element={ <PlacesList/> } />
-                <Route path="/places/:id" element={ <Place/> } />
-                <Route path="/about" element={<About />} />
+                <Route path="/places/list" element={ <> <PlacesMenu/><PlacesList/>  </>} />
+                <Route path="/places/:id" element={ <> <PlacesMenu /> <Place/> </> } />
+           
               </Routes>
+
               <Footer />
           </>
         ) : (

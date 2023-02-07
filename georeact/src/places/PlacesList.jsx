@@ -15,9 +15,9 @@ export const PlacesList = () => {
   const getPlaces = async (e) =>{
       try{
           
-          const data = await fetch ('https://backend.insjoaquimmir.cat/api/posts',{
+          const data = await fetch ('https://backend.insjoaquimmir.cat/api/places',{
               headers: {
-                  Accept: "application/json",
+                  "Accept": "application/json",
                   "Content-Type": "application/json",
                   'Authorization': 'Bearer '  + authToken,
                 },
@@ -36,6 +36,7 @@ export const PlacesList = () => {
   }
 
   useEffect(() => { 
+      console.log("PlacesList.jsx useEffect()");
       getPlaces();
    }, []);
 
@@ -52,7 +53,7 @@ export const PlacesList = () => {
                   <th>Visibility</th>
               </tr>
               { places.map ( (place)=> (
-                  ( places.visibility.name != 'private' || userEmail == place.author.email) &&       
+                         
                   (<tr key={places.id}>
                       <PlaceList place={place} /></tr>)
                   ))}
