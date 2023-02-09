@@ -1,9 +1,13 @@
 import React from 'react'
 import { useContext } from "react";
 import { UserContext } from "../userContext";
+import { Link } from "react-router-dom";
+
 
 import { CiEdit } from 'react-icons/ci';
 import { FcFullTrash } from 'react-icons/fc';
+import { BsEye } from 'react-icons/bs';
+
 
 
 function PostList({post}) {
@@ -16,7 +20,8 @@ function PostList({post}) {
         <td>{post.comments_count}</td>  
         <td>{post.latitude}</td>
         <td>{post.longitude}</td>
-        <td>{post.likes_count}</td> 
+        <td>{post.likes_count}</td>
+        <td><Link to={"/posts/" +post.id}><BsEye /></Link></td>
 
         {(userEmail == post.author.email) ?
           <td>
