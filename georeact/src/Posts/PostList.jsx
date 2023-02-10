@@ -24,9 +24,7 @@ function PostList({post}) {
         <td><Link to={"/posts/" +post.id}><BsEye /></Link></td>
 
         {(userEmail == post.author.email) ?
-          <td>
-            <Link to={"/posts/edit/" + post.id}>Edita </Link>            
-          </td>
+          <td><Link to={"/posts/edit/" + post.id}><CiEdit /></Link></td>
           : <td></td>
         }
 
