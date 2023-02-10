@@ -3,9 +3,14 @@ import Register from "./auth/Register";
 import { UserContext } from "./userContext";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { PlacesMenu, PlacesGrid, PlaceAdd, PlaceEdit ,PlacesList, Place  } from "places";  
+import { Place } from "./places/Place";
 
-import About from "./About";
+import { PlaceAdd } from "./places/PlaceAdd";
+import { PlaceEdit } from "./places/PlaceEdit";
+import { PlacesGrid } from "./places/PlacesGrid";
+import { PlacesList } from "./places/PlacesList";
+import { PlacesMenu } from "./places/PlacesMenu";
+import { About } from "./About";
 
 import './styles/loginRegister.css'
 import "./App.css";
@@ -14,7 +19,7 @@ import Footer from "./layout/Footer";
 import LoginRegister from "./auth/LoginRegister";
 
 export default function App() {
-  // difere`cnai entre emprar i no emprar state
+  
 
   let [authToken, setAuthToken] = useState("");
 

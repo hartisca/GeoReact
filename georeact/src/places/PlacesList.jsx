@@ -3,16 +3,16 @@ import React from 'react'
 import { useContext } from "react";
 import { UserContext } from "../userContext";
 
-function PlacesList(post) {
+function PlacesList(place) {
   let { userEmail, setUserEmail } = useContext(UserContext);
   return (    
       <>
-        <td>{post.id}</td>
-        <td>{post.author}</td>
-        <td>{post.description}</td>                        
-        <td>{post.latitude}</td>
-        <td>{post.longitude}</td>
-        <td>{post.visibility}</td> 
+        <td>{place.id}</td>
+        <td>{place.author}</td>
+        <td>{place.description}</td>                        
+        <td>{place.latitude}</td>
+        <td>{place.longitude}</td>
+        <td>{place.visibility}</td> 
 
         {(userEmail == place.author.email) ?
           <td>
