@@ -25,12 +25,13 @@ function PostList({post}) {
 
         {(userEmail == post.author.email) ?
           <td>
-            <Link to={"/posts/edit/" + post.id}><CiEdit /> </Link>            
+            <Link to={"/posts/edit/" + post.id}>Edita </Link>            
           </td>
           : <td></td>
         }
 
-        {(userEmail == post.author.email) ?<td><i onClick={() => {
+        {(userEmail == post.author.email) ?
+        <td><i onClick={() => {
             deletePost(post.id);
           }}><FcFullTrash /></i></td>
           : <td></td>
