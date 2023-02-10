@@ -52,31 +52,27 @@ function PostAdd() {
             alert ('Post successfully uploaded');
           } else{
             alert('There was an error uploading the post');
-            console.log(resposta);
-            
+            console.log(resposta);            
           }
         }catch{
           console.log('Error')
         }
       }
       useEffect(() => {
-
         navigator.geolocation.getCurrentPosition( (pos )=> {
           setFormulari({
             ...formulari,
             latitude :  pos.coords.latitude,
-            longitude: pos.coords.longitude,
-            
-          })
-      
+            longitude: pos.coords.longitude,            
+          })      
         });
       }, [])
+
     return (
     <>
       <div className="containerAdd">
       <form id="formAddPost"className="addPost">
             <div className="title"><h3>Add New Post</h3></div>
-
             <div>
               <input type="text"placeholder="Body" id="body" name="body" onChange={handleChange}/>
             </div>
@@ -104,14 +100,12 @@ function PostAdd() {
               <input type="file" placeholder="Upload" id="upload" name="upload" onChange={handleChange}/>
             </div>
            
-            <button className="addPlaceButton"
-              onClick={addPost}>
+            <button onClick={addPost}>
               Submit
             </button>		
 
           </form>
       </div>		
-   
      
     </>
   )

@@ -1,5 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import { FcLike } from 'react-icons/fc';
+import { AiOutlineComment } from 'react-icons/ai';
+import { BsEye } from 'react-icons/bs';
+
 
 export const PostGrid = ({ post }) => {
     return(
@@ -12,6 +17,8 @@ export const PostGrid = ({ post }) => {
                 </div>
                 <div className="likes">
                     <FcLike />{post.likes_count}
+                    <AiOutlineComment />{post.comment_count}
+                    <Link to={"/posts/" +post.id}><BsEye /></Link>
                 </div>
             </div>
         </>
