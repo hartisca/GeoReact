@@ -1,27 +1,74 @@
 
-import React from 'react'
-import { useContext } from "react";
+
+
+import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from "../userContext";
+import { PlaceList } from './PlaceList';
+import { Place } from './Place';
 
-function PlacesList(place) {
-  let { userEmail, setUserEmail } = useContext(UserContext);
-  return (    
-      <>
-        <td>{place.id}</td>
-        <td>{place.author}</td>
-        <td>{place.description}</td>                        
-        <td>{place.latitude}</td>
-        <td>{place.longitude}</td>
-        <td>{place.visibility}</td> 
 
-        {(userEmail == place.author.email) ?
-          <td>
-            <Link to={"/places/edit/" + place.id}>Edit </Link>            
-          </td>
-          : <td></td>
-        }
-      </>
+export const PlacesList =  () => {
+
+  let { authToken, setAuthToken,usuari, setUsuari } = useContext(UserContext);
+  let [places, setPlaces] = useState([]);
+  let [refresh,setRefresh] = useState(false)
+
+  const getPlaces = async (e) =>{
+      try{
+          
+          const data = await fetch ('https://backend.insjoaquimmir.cat/api/places',{
+              headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                  'Authorization': 'Bearer '  + authToken,
+                },
+                method: "GET"
+          })
+          const resposta = await data.json();
+          if (resposta.success === true){
+              setPlaces(resposta.data);
+              console.log(resposta);
+          } else{
+              alert('Error en la resposta!')
+          }
+      } catch{
+          console.log('Error (CATCH)');
+      }
+  }
+
+
+
+
+
+
+
+  useEffect(() => { 
+      getPlaces();
+   }, []);
+
+  return (
+      <table className='placesTable'>
+         <tbody>
+              <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Author</th>
+                  <th>Reviews</th>                    
+                  <th>Latitude</th>
+                  <th>Longitude</th>
+                  <th>Visibility</th>
+                 
+              </tr>
+            
+              { places.map ( (place)=> (
+                  ( place.visibility.name != 'private' || usuari.email == place.author.email) &&       
+                  (<tr key={place.id}>
+                      <PlaceList place={place} /></tr>)
+                  ))}
+          </tbody>
+      </table>
   )
+
+
 }
 
-export default PlacesList
