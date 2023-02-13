@@ -5,6 +5,7 @@ import { PostGrid } from './PostGrid'
 function PostsGrid() {
   let { authToken, setAuthToken } = useContext(UserContext);
   let [ posts, setPosts ] = useState([]);
+  let [refresh,setRefresh] = useState(false)
 
   const getPosts = async (e) =>{
     try{
@@ -29,16 +30,39 @@ function PostsGrid() {
     }
 }
 
+const deletePost = async (id) =>{
+   try{
+    const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
+        headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer ' + authToken
+        },
+        method: "DELETE",
+    })
+
+    const resposta = await data.json();
+        console.log(resposta);
+        if (resposta.success === true) {
+            setRefresh(!refresh);            
+        }else{
+            console.log('error')
+        }
+
+  }catch {
+    console.log(data);    
+  }
+}
 useEffect(() => { 
     getPosts();
- }, []);
+ }, [refresh]);
 
   return (
     <>
       <div className="gridCont2">
         { posts.map ( (post)=> (               
           <div key={post.id}>
-              <PostGrid post={post} /></div>
+              <PostGrid post={post} deletePost={deletePost} /></div>
           ))}
       </div>
     </>

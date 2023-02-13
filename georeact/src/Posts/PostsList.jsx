@@ -6,7 +6,7 @@ function PostsList() {
     let { authToken, setAuthToken, userEmail, setUserEmail } = useContext(UserContext);
     let [posts, setPosts] = useState([]);
     let [refresh,setRefresh] = useState(false)
-   
+       
     const getPosts = async (e) =>{
         try{
             
@@ -32,7 +32,7 @@ function PostsList() {
 
     useEffect(() => { 
         getPosts();
-     }, []);
+     }, [refresh]);
 
      const deletePost = async(id) => {
         try{
@@ -75,7 +75,7 @@ function PostsList() {
                 { posts.map ( (post)=> (
                     (post.visibility.name != 'private' || userEmail == post.author.email) &&
                     (<tr key={post.id}>
-                        <PostList post={post} deletePost={deletePost} setRefresh={setRefresh} refresh={refresh}/></tr>)
+                        <PostList post={post} deletePost={deletePost} /></tr>)
                 ))}
             </tbody>
         </table>

@@ -111,4 +111,8 @@ header p{
   margin-left: 4px;
 }
 
+.pointerClick:hover{
+  cursor: pointer;
+}
+
 

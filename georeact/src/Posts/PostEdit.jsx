@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react';
 
 import { useContext, useEffect } from "react";
 import { UserContext } from "../userContext";
@@ -30,7 +31,7 @@ function PostEdit() {
 
   const getPosts = async (e) =>{
     try{        
-      const data = await fetch ('https://backend.insjoaquimmir.cat/api/posts' +id,{
+      const data = await fetch ('https://backend.insjoaquimmir.cat/api/posts/' +id,{
           headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
@@ -68,7 +69,7 @@ function PostEdit() {
     console.log(formulari)
 
     try{
-      const data = await fetch('https://backend.insjoaquimmir.cat/api/posts' +id, {
+      const data = await fetch('https://backend.insjoaquimmir.cat/api/posts/' +id, {
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + authToken
@@ -121,7 +122,7 @@ function PostEdit() {
                 <input type="file" placeholder="Upload" id="upload" name="upload" onChange={handleChange}/>
               </div>
             
-              <button onClick={addPost}>
+              <button onClick={updatePost}>
                 Submit
               </button>		
 

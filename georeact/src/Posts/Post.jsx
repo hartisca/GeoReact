@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
 
 import { FcLike } from 'react-icons/fc';
-
+import { FcFullTrash } from 'react-icons/fc';
 
 function Post() {
   let { id } = useParams();
@@ -46,7 +46,15 @@ const getPost = async(e) => {
           <p>Descripció: </p>
           {post.body}    
       </div>
-      <FcLike />{post.likes_count}
+      <FcLike />{post.likes_count}  
+      <div>
+      {(email == post.author.email) ?
+        <i onClick={() => {
+            deletePost(post.id);
+        }}><FcFullTrash /></i>
+        : <div></div>
+        }
+      </div>    
     </div>
   }
   </> 

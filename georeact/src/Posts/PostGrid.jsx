@@ -11,8 +11,8 @@ import { FcFullTrash } from 'react-icons/fc';
 import { CiEdit } from 'react-icons/ci';
 
 
-export const PostGrid = ({ post }) => {
-    let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
+export const PostGrid = ({ post, deletePost }) => {
+    let { usuari, setUsuari, authToken, setAuthToken, email, setUserEmail } = useContext(UserContext)
     return(
         <>
             <div className="containerGrid">
@@ -25,18 +25,20 @@ export const PostGrid = ({ post }) => {
                     <FcLike />{post.likes_count}
                     <AiOutlineComment />{post.comment_count}
                 </div>
-                <div id='optionsPlaceGrid'>
-                    {(usuari == post.author.email ) &&  
-                    <Link to={"/posts/edit/" +post.id}><CiEdit /></Link>}
+                <div>
+                    <Link to={"/posts/" +post.id}><BsEye /></Link>  
+                    {(email == post.author.email) ?
+                    <Link to={"/posts/edit/" + post.id}><CiEdit /></Link>
+                    : <div></div>
+                    }
 
-                    {(usuari == post.author.email ) &&
-                    <button className='deleteButton'
-                        onClick={(e) => {
-                        deletePlace(e.post.id);
-                        }}><FcFullTrash />
-                    </button>}
-                </div>
-                <Link to={"/posts/" +post.id}><BsEye /></Link>                
+                    {(email == post.author.email) ?
+                    <i className="pointerClick" onClick={() => {
+                        deletePost(post.id);
+                    }}><FcFullTrash /></i>
+                    : <div></div>
+                    }
+                </div>              
             </div>
             
         </>

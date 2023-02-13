@@ -10,8 +10,8 @@ import { BsEye } from 'react-icons/bs';
 
 
 
-function PostList({post}) {
-  let { userEmail, setUserEmail } = useContext(UserContext);
+function PostList({post, deletePost}) {
+  let { email, setUserEmail } = useContext(UserContext);
   return (    
       <>
         <td>{post.id}</td>
@@ -23,13 +23,13 @@ function PostList({post}) {
         <td>{post.likes_count}</td>
         <td><Link to={"/posts/" +post.id}><BsEye /></Link></td>
 
-        {(userEmail == post.author.email) ?
+        {(email == post.author.email) ?
           <td><Link to={"/posts/edit/" + post.id}><CiEdit /></Link></td>
           : <td></td>
         }
 
-        {(userEmail == post.author.email) ?
-        <td><i onClick={() => {
+        {(email == post.author.email) ?
+        <td><i className="pointerClick" onClick={() => {
             deletePost(post.id);
           }}><FcFullTrash /></i></td>
           : <td></td>
