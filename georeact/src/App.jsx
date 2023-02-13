@@ -37,7 +37,7 @@ export default function App() {
 
               <Routes>              
                 <Route path="/" element={ <> <PlacesMenu/> <PlacesList/>  </>} />
-                <Route path="/places/add" element={ <PlaceAdd/> } />
+                <Route path="/places/add" element={ <> <PlacesMenu/><PlaceAdd/> </> } />
                 <Route path="/places/edit/:id" element={ <> <PlacesMenu/><PlaceEdit/> </> } />
                 <Route path="/places/grid" element={ <> <PlacesMenu/><PlacesGrid /> </>} />
                 <Route path="/places/list" element={ <> <PlacesMenu/><PlacesList/>  </>} />
