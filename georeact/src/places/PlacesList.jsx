@@ -7,7 +7,7 @@ import { PlaceList } from './PlaceList';
 import { Place } from './Place';
 
 
-export const PlacesList =  () => {
+export function PlacesList() {
 
   let { authToken, setAuthToken,usuari, setUsuari } = useContext(UserContext);
   let [places, setPlaces] = useState([]);
@@ -37,14 +37,42 @@ export const PlacesList =  () => {
   }
 
 
+  const deletePlace = async (e,id) =>{
+    e.preventDefault();
+    try{
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
+        headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer ' + authToken
+        },
+        method: "DELETE",
+    })
 
+      const resposta = await data.json();
+      console.log(resposta);
+      if (resposta.success === true) {
+        setRefresh(!refresh);
+        alert("Place eliminat correctament");
+        console.log("Place eliminat correctament");
+      }
+      else{
+        alert("El place no s ha pogut eliminar");
+        console.log(resposta.message);
+      }
+
+    }catch {
+      console.log(data);
+      console.log("catch");
+    }
+  }
 
 
 
 
   useEffect(() => { 
       getPlaces();
-   }, []);
+   }, [refresh]);
 
   return (
       <table className='placesTable'>
@@ -63,7 +91,7 @@ export const PlacesList =  () => {
               { places.map ( (place)=> (
                   ( place.visibility.name != 'private' || usuari.email == place.author.email) &&       
                   (<tr key={place.id}>
-                      <PlaceList place={place} /></tr>)
+                      <PlaceList place={place} deletePlace={deletePlace} /></tr>)
                   ))}
           </tbody>
       </table>
