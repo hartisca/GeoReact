@@ -84,29 +84,6 @@ function PostAdd() {
             <div>
               <input type="number"placeholder="Longitude" id="longitude" name="longitude" value = { formulari.longitude } onChange={handleChange}/>
             </div>
-<<<<<<< HEAD
-
-            <div>
-              <input type="radio" id="visibility" name="visibility" value="1" checked onChange={handleChange}/>
-              <label htmlFor="public">Public</label>
-            </div>
-            <div>
-              <input type="radio" id="visibility" name="visibility" value="2" onChange={handleChange}/>
-              <label htmlFor="private">Contacts</label>
-            </div>
-            <div>
-              <input type="radio" id="visibility" name="visibility" value="3" onChange={handleChange}/>
-              <label htmlFor="private">Private</label>
-            </div>
-
-            <div>
-              <input type="file" placeholder="Upload" id="upload" name="upload" onChange={handleChange}/>
-            </div>            
-            <button className=""
-              onClick={(e) => {
-                addPost(e);
-              }}>
-=======
               <div>
                 <input type="radio" id="visibility" name="visibility" value="1" checked onChange={handleChange}/>
                 <label htmlFor="public">Public</label>
@@ -124,18 +101,12 @@ function PostAdd() {
             </div>
            
             <button onClick={addPost}>
->>>>>>> d9f1d3273cfc98f67f5bd6f0171f3b9c5caa37e1
               Submit
             </button>		
 
           </form>
-<<<<<<< HEAD
-        </div>		
-    </div>
-=======
       </div>		
      
->>>>>>> d9f1d3273cfc98f67f5bd6f0171f3b9c5caa37e1
     </>
   )
 }
