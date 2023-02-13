@@ -22,7 +22,7 @@ function PostAdd() {
   }
 
   const addPost = async(e) => {
-    e.PreventDefault();
+    e.preventDefault();
     let { body, latitude , longitude, visibility } = formulari;
     console.log(formulari);
     var formdata = new FormData();
