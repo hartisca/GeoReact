@@ -4,14 +4,15 @@ import { useState } from 'react';
 import { useContext, useEffect } from "react";
 import { UserContext } from "../userContext";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 function PostEdit() {
   const {id} = useParams();
   let [ formulari, setFormulari ] = useState({});
-  let { authToken,setAuthToken } = useContext(UserContext);
-  let [post, setPost] = useState({});
-  
- 
+  let { authToken, setAuthToken } = useContext(UserContext);
+  let navigate = useNavigate();
+   
   const handleChange = (e) => {
     e.preventDefault();
     setFormulari({
@@ -32,16 +33,17 @@ function PostEdit() {
           method: "GET"
         })
         const resposta = await data.json();
-        if (resposta.success === true) setFormulari({              
+        if (resposta.success === true) console.log(resposta), setFormulari({              
           body : resposta.data.body,
           upload : resposta.data.file,
           latitude : resposta.data.latitude,
           longitude : resposta.data.longitude,
           visibility : resposta.data.visibility.id
         })
-          , console.log(resposta);
-        
-        else alert("La resposta no a triomfat");
+                    
+        else {
+          alert("La resposta no a triomfat");
+        }
   
         }catch{
           console.log("Error");
@@ -72,7 +74,7 @@ function PostEdit() {
           body: formData
         })
         const resposta = await data.json();
-        if (resposta.success === true) console.log(resposta);
+        if (resposta.success === true) console.log(resposta), navigate("/posts/"+ id);
 
         else alert("Error");
           
