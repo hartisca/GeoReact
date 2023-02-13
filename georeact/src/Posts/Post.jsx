@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
+import CommentList from './Comentaris/CommentList'
 
 import { FcLike } from 'react-icons/fc';
 import { FcFullTrash } from 'react-icons/fc';
 
 function Post() {
   let { id } = useParams();
-  let { userEmail, setUserEmail, authToken, setAuthToken } = useContext(UserContext);
+  let { email, setUserEmail, authToken, setAuthToken } = useContext(UserContext);
   let [isLoading, setIsLoading] = useState(true)
   let [post, setPost] = useState({});
 
@@ -54,7 +55,8 @@ const getPost = async(e) => {
         }}><FcFullTrash /></i>
         : <div></div>
         }
-      </div>    
+      </div>  
+      <div className='commentContainer'><CommentList id={post.id}/></div>  
     </div>
   }
   </> 

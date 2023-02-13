@@ -15,6 +15,9 @@ import PostAdd from './Posts/PostAdd';
 import PostEdit from './Posts/PostEdit';
 import PostsGrid from './Posts/PostsGrid';
 import PostsList from './Posts/PostsList';
+import CommentAdd from './Posts/Comentaris/CommentAdd';
+import CommentList from './Posts/Comentaris/CommentList';
+
 
 
 export default function App() {
@@ -50,6 +53,9 @@ export default function App() {
                 <Route path="/posts/edit/:id" element={<><PostsMenu /><PostEdit /> </>} />
                 <Route path="/posts/grid" element={<><PostsMenu /><PostsGrid /> </>} />
                 <Route path="/posts/:id" element={<><PostsMenu /> <Post /></>} />
+                <Route path="/posts/:id/comments" element={<> <PostsMenu/><CommentList /> </>} />
+                <Route path="/posts/:id/comments/add" element={<> <PostsMenu/><CommentAdd /> </>} /> 
+                
 
               </Routes>
             </div>
