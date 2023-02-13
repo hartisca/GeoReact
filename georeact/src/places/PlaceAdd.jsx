@@ -83,7 +83,7 @@ export function PlaceAdd () {
   return (
     <div>
         <div>
-          <form id="formulario">
+          <form id="formulari">
             <div><h1>Add Place</h1></div>
 
             <div>

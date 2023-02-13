@@ -38,7 +38,7 @@ export default function App() {
                 <Route path="/places/grid" element={ <> <PlacesMenu/><PlacesGrid /> </>} />
                 <Route path="/places" element={  <> <PlacesMenu/><PlacesList /> </>} /> 
                 <Route path="/places/:id" element={  <> <PlacesMenu/> <Place/>  </> }/>
-           
+                <Route path="/places/edit/:id" element={  <> <PlacesMenu/> <PlaceEdit/>  </> }/>
               </Routes>
               <Footer />
           </>

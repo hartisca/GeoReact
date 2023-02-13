@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 
 
 export function Place () {
-  const { id } = useParams();
+  let { id } = useParams();
   let {usuari,setUsuari,authToken,setAuthToken } = useContext(UserContext)
- let {isLoading, setIsLoading} = useState(true);
+  let {isLoading, setIsLoading} = useState(true);
   let [place, setPlaces] = useState({
     author:{name:""},
     name:"",
