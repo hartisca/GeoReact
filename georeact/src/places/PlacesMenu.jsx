@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
-export const PlacesMenu = () => {
+//import './PlacesMenu.css'; 
+ export function PlacesMenu()  {
   return (
     <>
     
@@ -13,4 +13,6 @@ export const PlacesMenu = () => {
     </>
   )
 }
-export default PlacesMenu
+  
+
+ 

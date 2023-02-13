@@ -1,24 +1,35 @@
 
-import React from 'react'
+import { React } from 'react'
 import { useContext } from "react";
 import { UserContext } from "../userContext";
+import { Link } from 'react-router-dom';
 
-function PlaceList({place}) {
-  let { userEmail, setUserEmail } = useContext(UserContext);
+export function PlaceList({place}) {
+
+
+  let { usuari, setUsuari } = useContext(UserContext);
+  
   return (    
       <>
         <td>{place.id}</td>
+        <td>{place.name}</td>
         <td>{place.author.name}</td>
-        <td>{place.comments_count}</td>                        
+        <td>{place.reviews_count}</td>                        
         <td>{place.latitude}</td>
         <td>{place.longitude}</td>
-        <td>{places.visibility.name}</td> 
+        <td>{place.visibility.name}</td> 
 
-        {(userEmail == place.author.email) ?
+        {(usuari.email == place.author.email) ?
+          <>
           <td>
-            <Link to={"/place/edit/" + place.id}>Edit </Link>            
+            <Link to={"/place/edit/" + place.id}>Edit <i className="bi bi-pencil-fill"></i> </Link>     </td>
+          <td>
+            <Link to={"/places/delete/" + place.id}> <i className="bi bi-trash3-fill"></i></Link>  </td>
+          <td>
+            <Link to={"/places/" + place.id}> <i className="bi bi-eye-fill"></i></Link>
           </td>
-          : <td></td>
+          </>
+          : <td><Link to={"/places/" + place.id}> <i className="bi bi-eye-fill"></i></Link></td>
         }
       </>
   )
