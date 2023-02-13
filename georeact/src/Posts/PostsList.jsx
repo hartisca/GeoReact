@@ -5,6 +5,7 @@ import PostList from './PostList';
 function PostsList() {
     let { authToken, setAuthToken, userEmail, setUserEmail } = useContext(UserContext);
     let [posts, setPosts] = useState([]);
+    let [refresh,setRefresh] = useState(false)
    
     const getPosts = async (e) =>{
         try{
@@ -33,6 +34,29 @@ function PostsList() {
         getPosts();
      }, []);
 
+     const deletePost = async(id) => {
+        try{
+          
+            const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/"+ id, {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              'Authorization': 'Bearer '  + authToken,
+            },
+            method: "DELETE"
+          })
+          const resposta = await data.json();
+          if (resposta.success === true) console.log(resposta), setRefresh(!refresh);
+          
+          else alert("La resposta no a triomfat");
+    
+          }catch{
+            console.log("Error");
+            alert("catch");  
+          }
+          
+      }
+
     return (
         <table className='postTable'>
             <tbody>
@@ -44,12 +68,15 @@ function PostsList() {
                     <th>Latitude</th>                    
                     <th>Longitude</th>
                     <th>Likes</th>
+                    <th>View</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
                 { posts.map ( (post)=> (
-                    ( post.visibility.name != 'private' || userEmail == post.author.email) &&       
+                    (post.visibility.name != 'private' || userEmail == post.author.email) &&
                     (<tr key={post.id}>
-                        <PostList post={post} /></tr>)
-                    ))}
+                        <PostList post={post} deletePost={deletePost} setRefresh={setRefresh} refresh={refresh}/></tr>)
+                ))}
             </tbody>
         </table>
     )
