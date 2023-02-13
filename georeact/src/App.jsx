@@ -1,6 +1,17 @@
 import { UserContext } from "./userContext";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
+
+
+import { PlacesMenu } from "./places/PlacesMenu";  
+import { PlacesGrid } from "./places/PlacesGrid"; 
+import { PlaceAdd } from "./places/PlaceAdd"; 
+import { PlaceEdit  } from "./places/PlaceEdit"; 
+import { PlacesList } from "./places/PlacesList";
+
+import { Place  } from "./places/Place"; 
+ 
+
 import './styles/loginRegister.css'
 import "./App.css";
 
@@ -21,7 +32,7 @@ import CommentList from './Posts/Comentaris/CommentList';
 
 
 export default function App() {
-  // difere`cnai entre emprar i no emprar state
+  
 
   let [ authToken, setAuthToken ] = useState("");
   let [ usuari, setUsuari ] = useState("");
@@ -45,8 +56,8 @@ export default function App() {
             <div className="container">
               <Routes>              
                 <Route path="*" element={<NotFound />} />
-                <Route path="/" element={<><PostsMenu /><Post /> </>} />
-                <Route path="/posts" element={<><PostsMenu /><Post /> </>} />
+                <Route path="/" element={<><PostsMenu /><PostsList /> </>} />
+                <Route path="/posts" element={<><PostsMenu /><PostsList /> </>} />
 
                 <Route path="/posts/list" element={<><PostsMenu /><PostsList /> </>} />
                 <Route path="/posts/add" element={<><PostsMenu /><PostAdd /> </>} />
@@ -55,6 +66,13 @@ export default function App() {
                 <Route path="/posts/:id" element={<><PostsMenu /> <Post /></>} />
                 <Route path="/posts/:id/comments" element={<> <PostsMenu/><CommentList /> </>} />
                 <Route path="/posts/:id/comments/add" element={<> <PostsMenu/><CommentAdd /> </>} /> 
+
+                           
+                <Route path="/places/add" element={  <> <PlacesMenu/> <PlaceAdd/></> } />          
+                <Route path="/places/grid" element={ <> <PlacesMenu/><PlacesGrid /> </>} />
+                <Route path="/places" element={  <> <PlacesMenu/><PlacesList /> </>} /> 
+                <Route path="/places/:id" element={  <> <PlacesMenu/> <Place/>  </> }/>
+                <Route path="/places/edit/:id" element={  <> <PlacesMenu/> <PlaceEdit/>  </> }/>
                 
 
               </Routes>

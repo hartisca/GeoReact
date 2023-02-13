@@ -70,7 +70,7 @@ export default function Header() {
         {user} <IoMdArrowDropdown />
       </button>      
       
-      <p>{roles.map (  (v)=> ( <span key={v}> {v} </span> ) ) }</p>
+      <p>{roles.map (  (v)=> ( <span key={v}> {v} </span>) ) }</p>
       <a className="logout"
         onClick={(e) => {
           logOut(e);
@@ -78,4 +78,4 @@ export default function Header() {
                              
     </header>      
     </>
-  )}
+  )} 
