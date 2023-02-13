@@ -11,85 +11,123 @@ function PostEdit() {
   let { authToken,setAuthToken } = useContext(UserContext);
   let [post, setPost] = useState({});
   
+ 
   const handleChange = (e) => {
-    e.prventDefault();
+    e.preventDefault();
+    setError("");
+
     if (e.target.name==="upload")
-    {
-      console.log(e.target.files[0].name)
-      setFormulari({
-        ...formulari,
-        [e.target.name] : e.target.files[0]
-      })
-    }
-  else {
+      {
+        console.log(e.target.files[0].name)
         setFormulari({
           ...formulari,
-          [e.target.name] : e.target.value
+          [e.target.name] : e.target.files[0] 
+
         })
+      }
+    else 
+    {
+      setFormulari({
+        ...formulari,
+        [e.target.name] : e.target.value
+
+      })
     };
   }
+  const getPostEdit = async() =>{
+    
+    try{
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + authToken
+        },
+        method: "GET"
 
-  const getPosts = async (e) =>{
-    try{        
-      const data = await fetch ('https://backend.insjoaquimmir.cat/api/posts/' +id,{
-          headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              'Authorization': 'Bearer '  + authToken,
-            },
-            method: "GET"
       })
       const resposta = await data.json();
       if (resposta.success === true){
-          setPost(resposta.data);
-          console.log(resposta);
-      } else{
-          alert('Error en la resposta!')
-      }
+        const { data } = resposta
+        setFormulari({
+          body: data.body,
+          upload: "",
+          latitude: data.latitude,
+          longitude: data.longitude,
+          visibility: data.visibility.id,
+
+        })
+      } 
+
+      else{
+        console.log(formulari)
+        setError(resposta.message);
+      } 
+        
     }catch{
-      console.log('Error');
+      console.log("Error");
+      alert("catch");
     }
-}
 
-  useEffect(() => { 
-    getPosts();
-  }, []);
+  }
+  const editPost = async(e) => {
 
-  const updatePost = async(e) => {
     e.preventDefault();
 
-    let { body, latitude , longitude, visibility=1, upload }  = formulari;
+    let {body,upload,latitude,longitude,visibility}=formulari;
     console.log(formulari);
-    const formdata = new FormData();        
-    formdata.append('body', body);
-    formdata.append('upload', upload);
-    formdata.append('latitude', latitude);
-    formdata.append('longitude', longitude);
-    formdata.append('visibility', visibility);
-    console.log(formulari)
+    var formData = new FormData();
+    formData.append("body", body);
+    formData.append("upload", upload);
+    formData.append("latitude", latitude);
+    formData.append("longitude", longitude);
+    formData.append("visibility", visibility);
 
     try{
-      const data = await fetch('https://backend.insjoaquimmir.cat/api/posts/' +id, {
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + authToken
         },
         method: "POST",
-        body: formdata
+        body: formData
+
       })
       const resposta = await data.json();
       if (resposta.success === true){
         console.log(resposta);
-        setFormulari({})
-        alert ('Post successfully uploaded');
-      } else{
-        alert('There was an error uploading the post');
-        console.log(resposta);            
-      }
+        alert("Post editado correctamente");
+        navigate("/posts/" + id)
+      } 
+
+      else{
+        console.log(formulari)
+        setError(resposta.message);
+      } 
+        
     }catch{
-      console.log('Error')
+      console.log("Error");
+      alert("catch");
     }
+
   }
+  useEffect(() => {
+    getPostEdit();
+    editPost();
+    navigator.geolocation.getCurrentPosition( (pos )=> {
+
+      setFormulari({
+  
+        ...formulari,
+        latitude :  pos.coords.latitude,
+        longitude: pos.coords.longitude
+    
+      })
+      
+      console.log("Latitude is :", pos.coords.latitude);
+      console.log("Longitude is :", pos.coords.longitude);
+    });
+
+  }, [])
   return (
     <>
       <div className="containerAdd">
@@ -122,9 +160,12 @@ function PostEdit() {
                 <input type="file" placeholder="Upload" id="upload" name="upload" onChange={handleChange}/>
               </div>
             
-              <button onClick={updatePost}>
-                Submit
-              </button>		
+              <button
+            onClick={(e) => {
+              editPost(e);
+            }}>
+            Submit
+          </button> 
 
         </form>
       </div>		
