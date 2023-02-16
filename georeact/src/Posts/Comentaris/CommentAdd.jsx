@@ -1,78 +1,80 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React from "react";
+import { useState } from "react";
+import { useContext } from "react";
 import { UserContext } from "../../userContext";
-import { useNavigate } from "react-router-dom";
+import { CommentsContext } from "./CommentsContext";
 
-const CommentAdd = () => {
-    let [formulari, setFormulari] = useState({});
-    let { authToken, setAuthToken } = useContext(UserContext);
-    let navigate = useNavigate();
+import { BsFillInfoCircleFill } from 'react-icons/bs';
 
-    const handleChange = (e) => {
-        e.preventDefault();    
-        setFormulari({
-        ...formulari,
-        [e.target.name] : e.target.value
-        })          
-    }
-    const addComment = async(e) => {
-        e.preventDefault();
-        let {comment}=formulari;
-        console.log(formulari);
-        var formData = new FormData();
-        formData.append("comment", comment);
-  
-        try{
-          const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/"+id+"/comments", {
-            headers: {
-              'Accept': 'application/json',
-              'Authorization': 'Bearer ' + authToken
-            },
-            method: "POST",
-            body: formData
-  
-          })
-          const resposta = await data.json();
-          if (resposta.success === true){
-            console.log(resposta);
-            alert("Review creado correctamente");
-            setFormulari({});
-            navigate("/posts/"+ id + "/comments")
-          } 
-  
-          else{
-            console.log(formulari)
-          } 
-            
-        }catch{
-          console.log("Error");
+
+const CommentAdd = ({id}) => {
+  let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
+  const [comment, setComment] = useState("");
+  let { setAdd, setRefresca, commentsCount, setCommentsCount } = useContext(CommentsContext);
+
+    const addComment = async () => {
+      let data = await fetch(
+        "https://backend.insjoaquimmir.cat/api/posts/" + id + "/comments",
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            //'Content-type': 'multipart/form-data',
+            Authorization: "Bearer " + authToken,
+          },
+          method: "POST",
+          // body: JSON.stringify({ name,description,upload,latitude,longitude,visibility })
+          body: JSON.stringify({ comment }),
         }
-        
+      );
+      let resposta = await data.json();
+      console.log(resposta);
+      if (resposta.success == true) {
+        console.log("Todo bien");
+        setComment("");
+        setRefresca(true);
+        setCommentsCount(commentsCount + 1);
+      } else {
+        console.log("S'ha produit un error");
       }
-      useEffect(() => {
-        addComment();  
-      }, [])
+    };
 
   return (
-   <div>
-        <div>
-          <form id="formulario">
-            <div><h1>Add Comment</h1></div>
-
-            <div>
-              <label>Review: </label>
-              <input type="text" placeholder="Comment" id="comment" name="comment" onChange={handleChange}/>
+    <>
+    <div class="flex mx-auto items-center justify-center  mt-6 mx-8 mb-4 max-w-lg">
+      <form class="w-full max-w-xl bg-white rounded-lg px-4 pt-2">
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <h2 class="px-4 pt-3 pb-2 text-gray-800 text-lg">
+            Afegeix un nou comentari
+          </h2>
+          <div class="w-full md:w-full px-3 mb-2 mt-2">
+            <textarea
+              onChange={(e) => setComment(e.target.value)}
+              value={comment}
+              class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
+              name="body"
+              placeholder="Escriu el teu comentari"
+              required
+            ></textarea>
+          </div>
+          <div class="w-full md:w-full flex items-start md:w-full px-3">
+            <div class="flex items-start w-1/2 text-gray-700 px-2 mr-auto">
+              <BsFillInfoCircleFill />
+              <p class="text-xs md:text-sm pt-px">Some HTML is okay.</p>
             </div>
-                        
-            <button
-              onClick={(e) => {
-                addComment(e);
-              }}>
-              Submit
-            </button>		
-
-          </form>
-        </div>		
+            <div class="-mr-1">
+              <input
+                onClick={addComment}
+                type="button"
+                class="bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-gray-100"
+                value="Post Review"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
+  </>
   )
 }
 

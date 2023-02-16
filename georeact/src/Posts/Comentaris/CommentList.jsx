@@ -1,60 +1,94 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React from "react";
+import { useEffect } from "react";
+import { Comment } from "./Comment";
+
+import { useContext } from "react";
 import { UserContext } from "../../userContext";
-import '../../App.css'
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
 
-import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { useState } from "react";
+import  CommentAdd  from "./CommentAdd";
+import { CommentsContext } from "./CommentsContext";
+// Fem servir un context únicament dins de tots els components de Reviews
 
-const CommentList = () => {
-    const { id } = useParams();
-    let [comments, setComments] = useState([]);
-    let { authToken,setAuthToken } = useContext(UserContext);
+const CommentList = ({id, comments_count}) => {
+     //let {setAdd, setRefresca, reviewsCount, setReviewsCount } = useContext(ReviewsContext)
+  let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
 
-    const getComments = async() =>{      
-        try{
-          const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id + "/comments", {
-            headers: {
-              'Accept': 'application/json',
-              'Authorization': 'Bearer ' + authToken
-            },
-            method: "GET"
-  
-          })
-          const resposta = await data.json();
+  let [error, setError] = useState("");
+  const [refresca, setRefresca] = useState(false);
+  const [add, setAdd] = useState(true);
+  const [commentsCount, setCommentsCount] = useState(comments_count);
 
-          if (resposta.success === true){
-            console.log(resposta.data);
-            setComments(resposta.data);
-          } else{
-            console.log(comments)
-           }             
-        }catch{
-          console.log("Error");          
-        }
-  
+  const [reviews, setReviews] = useState([]);
+
+  // review ={v} setAdd={setAdd } setRefresca={ setRefresca}
+
+  const listComments = async () => {
+    const headers = {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authToken,
+      },
+      method: "GET",
+    };
+
+    let data = await fetch(
+      "https://backend.insjoaquimmir.cat/api/posts/" + id + "/comments",
+      headers
+    );
+    let resposta = await data.json();
+    console.log(resposta);
+
+    if (resposta.success == true) { console.log(resposta.data); setReviews(resposta.data);}
+    else {
+      setError(resposta.message);
+    }
+
+    resposta.data.map((v) => {
+      if (v.user.email === usuari) {
+        setAdd(false);
+        console.log("Te review");
       }
-      
-      useEffect(() => {
-        getComments();
-        
-      }, [])
+    });
+  };
 
+  useEffect(() => {
+    listComments();
+    setRefresca(false);
+  }, [refresca]);
 
   return (
-    <>
-    <div>
-        <h3>Afegeix commentari</h3>
-        {comments.map((comment) => (
-            (<p key={comment.id}>- {comment.user.name}: {comment.comment}</p>)
-        ))}
+    <CommentsContext.Provider
+    value={{ setAdd, setRefresca, commentsCount, setCommentsCount }}
+  >
+    {add ? <CommentAdd id={id} /> : <></>}
+    <div class="flex mx-auto items-center justify-center  mt-6 mx-8 mb-4 max-w-lg">
+      {commentsCount == 0 ? (
+        <div className="flex mb-4 w-full items-center space-x-2 rounded-2xl bg-red-50 px-4 ring-2 ring-red-200">
+          No hi ha reviews
+        </div>
+      ) : (
+        <div className="flex mb-4 w-full items-center space-x-2 rounded-2xl bg-blue-50 px-4 ring-2 ring-blue-200">
+          Hi ha {commentsCount} {commentsCount > 1 ? " ressenyes" : " ressenya"}{" "}
+        </div>
+      )}
     </div>
-    <div>
-        <Link to={"/posts/" +id+"/comments/add"}> <AiOutlinePlusCircle /></Link>
-    </div>
-    </>
-  )
+
+    {error ? (
+      <div className="flex mb-4 w-full items-center space-x-2 rounded-2xl bg-red-50 px-4 ring-2 ring-red-200 ">
+        {error}
+      </div>
+    ) : (
+      <></>
+    )}
+
+    {reviews.map((v) => {
+      return <Comment key={v.id} comment={v} />;
+    })}
+  </CommentsContext.Provider>
+);
+  
 }
 
 export default CommentList

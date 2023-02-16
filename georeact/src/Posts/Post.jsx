@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
-import CommentList from './Comentaris/CommentList'
+import  CommentList  from './Comentaris/CommentList'
 
 import { FcLike } from 'react-icons/fc';
 import { FcFullTrash } from 'react-icons/fc';
@@ -38,25 +38,27 @@ const getPost = async(e) => {
   return (
 
     <>{(isLoading == true) ? <div>Carregant dades...</div> :
-    <div>
-    <img className="imgGrid" src={"https://backend.insjoaquimmir.cat/storage/" + post.file.filepath } alt={ post.file.id } width="300"/>
-      <p>Autor: {post.author.name}</p>
-      <p>Latitud: {post.latitude}</p>
-      <p>Longitud: {post.longitude}</p>
-      <div className='InfoPost'>
-          <p>Descripció: </p>
-          {post.body}    
-      </div>
-      <FcLike />{post.likes_count}  
-      <div>
-      {(email == post.author.email) ?
-        <i onClick={() => {
-            deletePost(post.id);
-        }}><FcFullTrash /></i>
-        : <div></div>
-        }
-      </div>  
-      <div className='commentContainer'><CommentList id={post.id}/></div>  
+    <div className='containerGridandcomment'>
+      <img className="imgGrid" src={"https://backend.insjoaquimmir.cat/storage/" + post.file.filepath } alt={ post.file.id } width="300"/>
+        <p>Autor: {post.author.name}</p>
+        <p>Latitud: {post.latitude}</p>
+        <p>Longitud: {post.longitude}</p>
+        <div className='InfoPost'>
+            <p>Descripció: </p>
+            {post.body}    
+        </div>
+          <FcLike />{post.likes_count}  
+        <div>
+          {(email == post.author.email) ?
+            <i onClick={() => {
+                deletePost(post.id);
+            }}><FcFullTrash /></i>
+            : <div></div>
+            }
+        </div>  
+        
+          <div className='commentContainer'><CommentList id={post.id}/></div> 
+               
     </div>
   }
   </> 
