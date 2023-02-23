@@ -1,14 +1,19 @@
 import React, { useContext } from 'react'
 import '../styles/loginRegister.css'
-import { useState } from 'react'
-import { UserContext } from '../userContext';
+import { UserContext } from '../userContext'
+import { useForm } from '../hooks/useForm'
 
 
-export default function Login({setRegister}) {   
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
+export default function Login({setRegister}) {     
+  
   let { userEmail, setUserEmail, authToken, setAuthToken } = useContext(UserContext)
 
+  const { formState, onInputChange } = useForm({
+    email: "",    
+    password: "",    
+  });
+  const {email,password} = formState
+   
   const sendLogin = async(e) => {
     try{
       e.preventDefault();
@@ -44,13 +49,11 @@ export default function Login({setRegister}) {
         <form className='form'>
             <div className='form-body'>              
                 <label> Email: </label>
-                <input type="email" name="email" onChange={(e) => {
-                  setEmail(e.target.value);}}/>   
+                <input type="email" name="email" onChange={onInputChange}/>   
                          
                 <br></br>      
                 <label>Password: </label>
-                <input type="password" name="password" onChange={(e) => {
-                  setPassword(e.target.value);}}/>                              
+                <input type="password" name="password" onChange={onInputChange}/>                              
             </div>
             <div className='errores' hidden></div>  
             <div className="footer">

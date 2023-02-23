@@ -31,7 +31,7 @@ export const Comment = ({ comment }) => {
 
     if (confirma) {
       const data = await fetch(
-        "https://backend.insjoaquimmir.cat/api/comments/" +
+        "https://backend.insjoaquimmir.cat/api/posts/" + id + "/comments",
           comment.comment.id +
           "/comments/" +
           comment.id,
