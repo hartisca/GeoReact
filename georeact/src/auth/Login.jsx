@@ -4,8 +4,7 @@ import { UserContext } from '../userContext'
 import { useForm } from '../hooks/useForm'
 
 
-export default function Login({setRegister}) {     
-  
+export default function Login({setRegister}) {       
   let { userEmail, setUserEmail, authToken, setAuthToken } = useContext(UserContext)
 
   const { formState, onInputChange } = useForm({

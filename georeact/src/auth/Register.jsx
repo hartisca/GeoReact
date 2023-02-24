@@ -2,31 +2,24 @@ import React from 'react';
 import '../styles/loginRegister.css'
 import { useState, useContext } from 'react'
 import { UserContext } from '../userContext';
+import { useForm } from '../hooks/useForm'
 
 
-export default function Register({setRegister}) {
-    let [formulari, setFormulari] = useState({});
+export default function Register({setRegister}) {    
     let { authToken, setAuthToken } = useContext(UserContext)
 
-
-    const handleChange = async(e) => {
-        e.preventDefault();
-
-        try{
-            setFormulari({
-            ...formulari,
-            [e.target.name]: e.target.value
-            });
-        }
-        catch{
-            console.log("Catch");
-        }
-    }
+    const { formState, onInputChange } = useForm({
+        name: "",
+        email: "",        
+        password: "",
+        password2: "",
+    });
+        
+    const {name, email,password, password2} = formState
         
     const handleRegister = async(e) => {
         e.preventDefault();
 
-        let { name, password, password2, email } = formulari;
         if (password2 !== password) {
             alert("Els passwords han de coincidir");
             return false;
@@ -62,16 +55,16 @@ export default function Register({setRegister}) {
         <div className='form'>
             <form className='form-body'>
             Name:
-            <input className="name" name="name" type="text" onChange={handleChange} />
+            <input className="name" name="name" type="text" onChange={onInputChange} />
             <br />
             E-mail
-            <input className="mail" name="email" type="email" onChange={handleChange} />
+            <input className="mail" name="email" type="email" onChange={onInputChange} />
             <br />
             Password:
-            <input className="pswd" name="password" type="password" onChange={handleChange} />
+            <input className="pswd" name="password" type="password" onChange={onInputChange} />
             <br />
             Confirm Password:
-            <input className="pswd" name="password2" type="password" onChange={handleChange} />
+            <input className="pswd" name="password2" type="password" onChange={onInputChange} />
             <br />
             <div className='errores' hidden></div>  
 
