@@ -7,7 +7,7 @@ import { useForm } from '../hooks/useForm'
 export default function Login({setRegister}) {       
   let { userEmail, setUserEmail, authToken, setAuthToken } = useContext(UserContext)
 
-  const { formState, onInputChange } = useForm({
+  const { formState, onInputChange, resetForm } = useForm({
     email: "",    
     password: "",    
   });
@@ -61,7 +61,13 @@ export default function Login({setRegister}) {
                   sendLogin(e);
                 }}>
                 Fes Login
-              </button>            
+              </button>   
+              <button
+                onClick={(e) => {
+                  resetForm(e);
+                }}>
+                Buida                
+              </button>          
             </div>
         </form>
         

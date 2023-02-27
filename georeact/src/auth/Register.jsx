@@ -8,7 +8,7 @@ import { useForm } from '../hooks/useForm'
 export default function Register({setRegister}) {    
     let { authToken, setAuthToken } = useContext(UserContext)
 
-    const { formState, onInputChange } = useForm({
+    const { formState, onInputChange, resetForm } = useForm({
         name: "",
         email: "",        
         password: "",
@@ -72,8 +72,13 @@ export default function Register({setRegister}) {
                 onClick={(e) => {
                 handleRegister(e);
                 }}
-            >
-                Register
+            > Register
+            </button>
+            <button className="btn3"
+                onClick={(e) => {
+                resetForm(e);
+                }}
+            > Buida
             </button>
             </form>
         </div>

@@ -15,13 +15,9 @@ export const useForm = (initialForm={}) => {
         const { name, value } = target;
 
         setFormState({
-
         ...formState,
-
         // [target.name] : target.value
-
         [name]: value,
-
         });
 
         // Si no haguéssim desestrcuturat res...
@@ -36,6 +32,10 @@ export const useForm = (initialForm={}) => {
 
     // I s’hauran de retornar a continuació
 
-return { ...formState, formState, onInputChange};
+    const resetForm = () => {
+        setFormState(initialForm);
+    }
+
+return { ...formState, formState, onInputChange, resetForm};
 
 };

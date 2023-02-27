@@ -1,16 +1,19 @@
 import React from "react";
-import { useState } from "react";
 import { useContext } from "react";
 import { UserContext } from "../../userContext";
 import { CommentsContext } from "./CommentsContext";
+import { useForm } from '../../hooks/useForm'
 
 import { BsFillInfoCircleFill } from 'react-icons/bs';
 
 
 const CommentAdd = ({id}) => {
-  let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
-  const [comment, setComment] = useState("");
+  let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);  
   let { setAdd, setRefresca, commentsCount, setCommentsCount } = useContext(CommentsContext);
+
+  const { formState, onInputChange, resetForm } = useForm({ comment: "" });
+  
+  const {comment} = formState
 
     const addComment = async () => {
       let data = await fetch(
@@ -30,8 +33,7 @@ const CommentAdd = ({id}) => {
       let resposta = await data.json();
       console.log(resposta);
       if (resposta.success == true) {
-        console.log("Todo bien");
-        setComment("");
+        console.log("Todo bien");        
         setRefresca(true);
         setCommentsCount(commentsCount + 1);
       } else {
@@ -49,10 +51,10 @@ const CommentAdd = ({id}) => {
           </h2>
           <div class="w-full md:w-full px-3 mb-2 mt-2">
             <textarea
-              onChange={(e) => setComment(e.target.value)}
+              onChange={onInputChange}
               value={comment}
               class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
-              name="body"
+              name="comment"
               placeholder="Escriu el teu comentari"
               required
             ></textarea>
@@ -67,9 +69,17 @@ const CommentAdd = ({id}) => {
                 onClick={addComment}
                 type="button"
                 class="bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-gray-100"
-                value="Post Review"
+                value="Afegeix el comentari"
               />
             </div>
+            <div class="-mr-1">
+              <input
+                onClick={resetForm}
+                type="button"
+                class="bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-gray-100"
+                value="Buida"
+              />
+            </div>            
           </div>
         </div>
       </form>
