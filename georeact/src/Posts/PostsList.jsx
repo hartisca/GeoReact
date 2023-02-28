@@ -2,37 +2,21 @@ import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from "../userContext";
 import PostList from './PostList';
 
-function PostsList() {
-    let { authToken, setAuthToken, userEmail, setUserEmail } = useContext(UserContext);
-    let [posts, setPosts] = useState([]);
-    let [refresh,setRefresh] = useState(false)
-       
-    const getPosts = async (e) =>{
-        try{
-            
-            const data = await fetch ('https://backend.insjoaquimmir.cat/api/posts',{
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer '  + authToken,
-                  },
-                  method: "GET"
-            })
-            const resposta = await data.json();
-            if (resposta.success === true){
-                setPosts(resposta.data);
-                console.log(resposta);
-            } else{
-                alert('Error en la resposta!')
-            }
-        } catch{
-            console.log('Error');
-        }
-    }
+import useFetch from '../hooks/useFetch';
 
-    useEffect(() => { 
-        getPosts();
-     }, [refresh]);
+function PostsList() {
+    let { authToken, setAuthToken, userEmail, setUserEmail } = useContext(UserContext);    
+    
+    let {data, error, loading, reRender} = useFetch('https://backend.insjoaquimmir.cat/api/posts',
+      {
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + authToken
+        },
+        method: "GET",
+      }
+    )
 
      const deletePost = async(id) => {
         try{
@@ -46,8 +30,10 @@ function PostsList() {
             method: "DELETE"
           })
           const resposta = await data.json();
-          if (resposta.success === true) console.log(resposta), setRefresh(!refresh);
-          
+          if (resposta.success === true){
+            console.log(resposta), 
+            reRender();
+          }
           else alert("La resposta no a triomfat");
     
           }catch{
@@ -58,6 +44,8 @@ function PostsList() {
       }
 
     return (
+        <>
+        {!loading ? 
         <table className='postTable'>
             <tbody>
                 <tr>
@@ -72,13 +60,18 @@ function PostsList() {
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
-                { posts.map ( (post)=> (
+                
+                { data.data.map ( (post)=> (
                     (post.visibility.name != 'private' || userEmail == post.author.email) &&
                     (<tr key={post.id}>
                         <PostList post={post} deletePost={deletePost} /></tr>)
                 ))}
+                
             </tbody>
         </table>
+        : <div>Carregant...</div>
+        }
+        </>
     )
 }
 
