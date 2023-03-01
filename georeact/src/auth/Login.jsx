@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import '../styles/loginRegister.css'
 import { UserContext } from '../userContext'
 import { useForm } from '../hooks/useForm'
+import useLogin from '../hooks/useLogin'
 
 
 export default function Login({setRegister}) {       
@@ -12,36 +13,10 @@ export default function Login({setRegister}) {
     password: "",    
   });
   const {email,password} = formState
-   
-  const sendLogin = async(e) => {
-    try{
-      e.preventDefault();
+  
+  let {doLogin, checkAuthToken} = useLogin();
+  checkAuthToken();
 
-        console.log("Comprovant credencials....");
-        // Enviam dades a l'aPI i recollim resultat
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          method: "POST",
-          body: JSON.stringify({ email: email, password: password })
-        });
-        
-        const resposta = await data.json();
-          if(resposta.success === true){
-            setAuthToken(resposta.authToken);
-            setUserEmail(email);
-          }else{
-              const errores = document.getElementsByClassName("errores")[0];
-              errores.innerHTML = resposta.message;
-              errores.removeAttribute('hidden');           
-            }}
-    catch (error){
-      console.error(error)
-      console.log('Error');
-    }
-  };
   return (
     <>
         <h2>Login: </h2>
@@ -58,7 +33,7 @@ export default function Login({setRegister}) {
             <div className="footer">
               <button
                 onClick={(e) => {
-                  sendLogin(e);
+                  doLogin(e, email, password);
                 }}>
                 Fes Login
               </button>   
