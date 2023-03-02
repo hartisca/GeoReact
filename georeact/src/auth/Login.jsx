@@ -1,12 +1,10 @@
 import React, { useContext } from 'react'
 import '../styles/loginRegister.css'
-import { UserContext } from '../userContext'
 import { useForm } from '../hooks/useForm'
 import useLogin from '../hooks/useLogin'
 
 
 export default function Login({setRegister}) {       
-  let { userEmail, setUserEmail, authToken, setAuthToken } = useContext(UserContext)
 
   const { formState, onInputChange, resetForm } = useForm({
     email: "",    
@@ -14,8 +12,7 @@ export default function Login({setRegister}) {
   });
   const {email,password} = formState
   
-  let {doLogin, checkAuthToken} = useLogin();
-  checkAuthToken();
+  let {doLogin} = useLogin();
 
   return (
     <>
@@ -33,7 +30,8 @@ export default function Login({setRegister}) {
             <div className="footer">
               <button
                 onClick={(e) => {
-                  doLogin(e, email, password);
+                  e.preventDefault();
+                  doLogin(email, password);
                 }}>
                 Fes Login
               </button>   
