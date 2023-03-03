@@ -63,7 +63,9 @@ export default function Header() {
       <nav>
         <Link to="/posts" className="Link">Posts</Link>
         <Link to="/places" className="Link">Places</Link>
-        <Link to="/about" className="Link">About</Link>                 
+        <Link to="/about" className="Link">About</Link>    
+        <Link to="/todos" className="Link">ToDos</Link>                 
+
       </nav>     
         
       <button className="navbar-toggler botoncito" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
