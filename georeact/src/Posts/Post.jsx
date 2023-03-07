@@ -1,10 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useState, useReducer } from 'react'
+import { useLocation, useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
 import  CommentList  from './Comentaris/CommentList'
 
 import { FcLike } from 'react-icons/fc';
 import { FcFullTrash } from 'react-icons/fc';
+
+import { postMarkReducer } from './Marks/postMarkReducer';
+
+const initialState = [];
+const init = () => {
+  return JSON.parse(localStorage.getItem("postMark")) || [];
+}
 
 function Post() {
   let { id } = useParams();
@@ -12,29 +19,48 @@ function Post() {
   let [isLoading, setIsLoading] = useState(true)
   let [post, setPost] = useState({});
 
-const getPost = async(e) => {
-  try{
-    
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        'Authorization': 'Bearer '  + authToken,
-      },
-      method: "GET"
-    })
-    const resposta = await data.json();
-    if (resposta.success === true) setPost(resposta.data), console.log(resposta), setIsLoading(false);
-    
-    else (console.log(resposta));
+  const [ mark, dispatchMarks ] = useReducer(postMarkReducer, initialState, init);
 
-    }catch{
-      console.log("Error");
-      alert("catch");  
-    }    
-}
+  const { pathname } = useLocation();
 
-  useEffect(() => { getPost(); }, []);
+  const getPost = async(e) => {
+    try{
+      
+        const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer '  + authToken,
+        },
+        method: "GET"
+      })
+      const resposta = await data.json();
+      if (resposta.success === true) setPost(resposta.data), console.log(resposta), setIsLoading(false);
+      
+      else (console.log(resposta));
+
+      }catch{
+        console.log("Error");
+        alert("catch");  
+      }    
+  }
+
+  const handleMarkPost = () =>{
+    let mark = {
+      id: post.id, 
+      body: post.body,
+      ruta: pathname,
+    }
+    
+    const action = {
+      type: "Add Mark",
+      payload: mark,
+    }
+    dispatchMarks(action);
+    console.log("Afegit el mark")
+  }
+  useEffect(() => { 
+    getPost(); }, []);
   return (
 
     <>{(isLoading == true) ? <div>Carregant dades...</div> :
@@ -43,6 +69,9 @@ const getPost = async(e) => {
         <p>Autor: {post.author.name}</p>
         <p>Latitud: {post.latitude}</p>
         <p>Longitud: {post.longitude}</p>
+        <button onClick={()=> {
+          handleMarkPost();
+        }}> Mark </button>        
         <div className='InfoPost'>
             <p>Descripció: </p>
             {post.body}    
