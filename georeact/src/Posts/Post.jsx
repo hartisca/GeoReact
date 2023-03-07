@@ -7,6 +7,7 @@ import { FcLike } from 'react-icons/fc';
 import { FcFullTrash } from 'react-icons/fc';
 
 import { postMarkReducer } from './Marks/postMarkReducer';
+import PostMarks from './Marks/PostMarks';
 
 const initialState = [];
 const init = () => {
@@ -19,7 +20,7 @@ function Post() {
   let [isLoading, setIsLoading] = useState(true)
   let [post, setPost] = useState({});
 
-  const [ mark, dispatchMarks ] = useReducer(postMarkReducer, initialState, init);
+  const [ postsMarks, dispatchMarks ] = useReducer(postMarkReducer, initialState, init);
 
   const { pathname } = useLocation();
 
@@ -60,7 +61,10 @@ function Post() {
     console.log("Afegit el mark")
   }
   useEffect(() => { 
-    getPost(); }, []);
+    getPost();
+    localStorage.setItem("postsMarks", JSON.stringify(postsMarks));},
+    [postsMarks]);
+
   return (
 
     <>{(isLoading == true) ? <div>Carregant dades...</div> :

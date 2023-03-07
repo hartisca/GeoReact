@@ -9,8 +9,7 @@ import { PlaceAdd } from "./places/PlaceAdd";
 import { PlaceEdit  } from "./places/PlaceEdit"; 
 import { PlacesList } from "./places/PlacesList";
 
-import { Place  } from "./places/Place"; 
- 
+import { Place  } from "./places/Place";  
 
 import './styles/loginRegister.css'
 import "./App.css";
@@ -28,12 +27,12 @@ import PostsGrid from './Posts/PostsGrid';
 import PostsList from './Posts/PostsList';
 import CommentAdd from './Posts/Comentaris/CommentAdd';
 import CommentList from './Posts/Comentaris/CommentList';
+
 import ToDos from "./todos/ToDos";
 import PostMarks from "./Posts/Marks/PostMarks";
 
 
-export default function App() {
-  
+export default function App() {  
 
   let [ authToken, setAuthToken ] = useState("");
   let [ usuari, setUsuari ] = useState("");
