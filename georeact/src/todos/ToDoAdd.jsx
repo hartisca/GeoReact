@@ -1,24 +1,37 @@
 import React, {useReducer} from "react";
 import {useForm} from '../hooks/useForm'
 
+import { useDispatch, useSelector } from "react-redux";
+import { addtodo } from "../slices/todoSlice";
 
-const ToDoAdd = ({handle}) => {
+
+const ToDoAdd = ({}) => {
 
     const {formState, onInputChange} = useForm({
         todo: "",
     })
     const {todo} = formState;
 
+    const dispatch = useDispatch();
+
     const toDoSubmit = (e) => {
         e.preventDefault();
 
-        const newToDo = {
+        const newTodo = {
 
-            id: new Date().getTime(),
-            done: false,
-            description: todo,
-        }
-        handle(newToDo);
+          id: new Date().getTime(),
+          
+          body: todo,
+          
+          done:false
+          
+          }
+          
+          //onResetForm()
+          
+          //handle(newTodo)
+          console.log("Abans del dispatch");
+          dispatch(addtodo(newTodo))
     }
 
   return (

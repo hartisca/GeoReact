@@ -4,22 +4,29 @@ import { useReducer } from "react";
 import { ToDo } from './ToDo';
 import ToDoAdd from './ToDoAdd';
 import { todosReducer } from './todosReducer';
+import { useDispatch, useSelector } from "react-redux";
 
+import { addtodo } from "../slices/todoSlice";
 
+/*
 // Estat inicial del reducer. Buit
 const initialState = [];
 const init = () => {
   // Si localstorage tornes null tornariem un array buit
   return JSON.parse(localStorage.getItem("todos")) || [];
 };
-
+*/
 const ToDos = () => {
-  const [todos, dispatchTodos] = useReducer(todosReducer, initialState, init);
+  //const [todos, dispatchTodos] = useReducer(todosReducer, initialState, init);
+
+  const { todos } = useSelector(state => state.todos)
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
-
+/*
   const handleNewToDo = (todo) => {
     console.log("Afegeixo");
     console.log({todo});
@@ -47,21 +54,30 @@ const ToDos = () => {
   }
 
   console.log(todos);
-
+*/
   return (
     <>
       <div className="h-100 w-full flex items-center justify-center bg-teal-lightest font-sans">
         <div className="bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg">
-          <ToDoAdd handle={handleNewToDo} />
+          {/* <ToDoAdd handle={handleNewToDo} /> */}
+          <ToDoAdd />
           <div>
+          <div>
+            {todos.length == 0 ? (
+              <div>Afegeix alguna tasca...</div>
+            ) : (
+              <></>
+            )}
             {todos.map((todo) => (
-              <ToDo
+              /* <ToDo 
                 key={todo.id}
                 todo={todo}
                 handleDelete={handleDeleteToDo}
                 handleToggleTodo={handleToggleTodo}
-              />
+              /> */
+              <ToDo key={todo.id} todo={todo} />
             ))}
+          </div>
 
             {/* <div className="flex mb-4 items-center">
               <p className="w-full line-through text-green">
