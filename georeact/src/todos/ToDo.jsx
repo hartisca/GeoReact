@@ -1,9 +1,14 @@
 import React from 'react'
 import '../App.css'
 
+import { useDispatch, useSelector } from "react-redux";
+import { deltodo, toggletodo } from "../slices/todoSlice";
+
 import { FcFullTrash } from 'react-icons/fc';
 
-export const ToDo = ({todo,handleDelete,handleToggleTodo}) => {
+export const ToDo = ({todo}) => {
+
+  const dispatch = useDispatch();
 
   console.log(todo)
 
@@ -19,7 +24,7 @@ export const ToDo = ({todo,handleDelete,handleToggleTodo}) => {
             <td>{todo.id}</td>
             <td>{todo.description}</td>
           </>
-        }
+        }{/*
       <button 
           onClick={(e) => {
             e.preventDefault();
@@ -33,13 +38,26 @@ export const ToDo = ({todo,handleDelete,handleToggleTodo}) => {
             handleToggleTodo(todo.id); 
           }}>
             NO FET
-      </button>
+      </button>        
       <button className='deleteButton'
           onClick={(e) => {
             e.preventDefault();
             handleDelete(todo.id); 
           }}><FcFullTrash />
       </button>
+      */}
+      <button 
+          onClick={() => dispatch(toggletodo(todo.id))}>
+            FET
+      </button>
+      <button 
+          onClick={() => dispatch(toggletodo(todo.id))}>
+            NO FET
+      </button>        
+      <button className='deleteButton'
+         onClick={() => dispatch(deltodo(todo.id))}><FcFullTrash />
+      </button>
+
     </>
   )
 }

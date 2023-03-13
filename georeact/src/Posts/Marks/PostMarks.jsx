@@ -3,37 +3,25 @@ import { useEffect, useReducer } from 'react'
 import PostMark from './PostMark'
 import { postMarkReducer } from './postMarkReducer'
 
-const initialState = [];
+import { useSelector } from 'react-redux';
 
-const init = () => {
-  return JSON.parse(localStorage.getItem("postsMarks")) || [];
-};
 
 const PostMarks = () => {
 
-    const [postsMarks, dispatchMarks] = useReducer(postMarkReducer, initialState, init);
+    const { marks } = useSelector(state => state.markposts);
 
     useEffect(() => {
-      localStorage.setItem("postsMarks", JSON.stringify(postsMarks));
-    }, [postsMarks]);
+      localStorage.setItem("marks", JSON.stringify(marks));
+    }, [marks]);
 
-    const handleDeleteMark = (id) => {
-        console.log("Aqui arribo " + id);
-        dispatchMarks({
-          type: "Delete Mark",
-          payload: id
-        });
-      };
-    
-      console.log(postsMarks);
+    console.log(marks);
   return (
     <div>
-    {postsMarks.map((mark) => (
-      <PostMark
-        mark={mark}
-        handleDeleteMark={handleDeleteMark}
-      />
-    ))}
+      <h2>Markers</h2>
+
+      {marks.map((mark) => (
+        <PostMark key={mark.id} mark={mark}/>    
+      ))};
   </div>
   )
 }
