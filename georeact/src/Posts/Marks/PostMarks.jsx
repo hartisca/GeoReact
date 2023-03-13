@@ -8,18 +8,18 @@ import { useSelector } from 'react-redux';
 
 const PostMarks = () => {
 
-    const { marks } = useSelector(state => state.markposts);
+    const { postsMarks, isMarked } = useSelector(state => state.postsMarks);
 
     useEffect(() => {
-      localStorage.setItem("marks", JSON.stringify(marks));
-    }, [marks]);
+      localStorage.setItem("postsMarks", JSON.stringify(postsMarks));
+    }, [postsMarks]);
 
-    console.log(marks);
+    console.log(postsMarks);
   return (
     <div>
       <h2>Markers</h2>
 
-      {marks.map((mark) => (
+      {postsMarks.map((mark) => (
         <PostMark key={mark.id} mark={mark}/>    
       ))};
   </div>

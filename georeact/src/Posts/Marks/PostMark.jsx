@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
-import { delpostmark } from "../../slices/postMarkSlice";
+import { delpostMark } from "../../slices/postMarkSlice";
 
 const PostMark = ({mark}) => {
 
@@ -12,7 +12,7 @@ const PostMark = ({mark}) => {
         <td>{mark.id}</td>
         <td>{mark.body}</td>
         <Link className="headerLink" to={mark.route}><i className="bi bi-eye"></i></Link>
-        <td><button onClick={ (e) => {dispatch(delpostmark(mark.id))}}>Borrar</button></td>
+        <td><button onClick={ (e) => {dispatch(delpostMark(mark.id))}}>Borrar</button></td>
     </tr>
   )
 }

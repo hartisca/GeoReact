@@ -5,9 +5,13 @@ import  CommentList  from './Comentaris/CommentList'
 
 import { FcLike } from 'react-icons/fc';
 import { FcFullTrash } from 'react-icons/fc';
+import { FaSave } from 'react-icons/fa';
 
 import { postMarkReducer } from './Marks/postMarkReducer';
 import PostMarks from './Marks/PostMarks';
+import { useDispatch, useSelector } from "react-redux";
+import { addpostMark } from '../slices/postMarkSlice';
+import { isMarked } from '../slices/postMarkSlice';
 
 const initialState = [];
 const init = () => {
@@ -20,9 +24,11 @@ function Post() {
   let [isLoading, setIsLoading] = useState(true)
   let [post, setPost] = useState({});
 
-  const [ postsMarks, dispatchMarks ] = useReducer(postMarkReducer, initialState, init);
+  //const [ postsMarks, dispatchMarks ] = useReducer(postMarkReducer, initialState, init);
+  const { postsMarks, ismarked } = useSelector(state => state.postsMarks);
 
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
 
   const getPost = async(e) => {
     try{
@@ -44,26 +50,46 @@ function Post() {
         console.log("Error");
         alert("catch");  
       }    
-  }
+  }  
 
-  const handleMarkPost = () =>{
-    let mark = {
-      id: post.id, 
+  // const handleMarkPost = () =>{
+  //   let mark = {
+  //     id: post.id, 
+  //     body: post.body,
+  //     ruta: pathname,
+  //   }
+    
+  //   const action = {
+  //     type: "Add Mark",
+  //     payload: mark,
+  //   }
+  //   dispatchMarks(action);
+  //   console.log("Afegit el mark")
+  // }
+
+  const markPost = (post) =>{
+    console.log(post);
+
+    const AddMark = {
+      id: new Date().getTime(),
+      postId: post.id,
       body: post.body,
       ruta: pathname,
+
     }
-    
-    const action = {
-      type: "Add Mark",
-      payload: mark,
-    }
-    dispatchMarks(action);
-    console.log("Afegit el mark")
+    dispatch(addpostMark(AddMark));
+    console.log(pathname);
+    alert("Has añadido este post a tus marcados!")
   }
-  useEffect(() => { 
-    getPost();
-    localStorage.setItem("postsMarks", JSON.stringify(postsMarks));},
+    useEffect(() => { 
+      getPost();
+      localStorage.setItem("postsMarks", JSON.stringify(postsMarks));},
     [postsMarks]);
+
+    useEffect ( ()=> {
+      getPost();
+      dispatch(isMarked(id));
+    },[])
 
   return (
 
@@ -73,9 +99,25 @@ function Post() {
         <p>Autor: {post.author.name}</p>
         <p>Latitud: {post.latitude}</p>
         <p>Longitud: {post.longitude}</p>
-        <button onClick={()=> {
-          handleMarkPost();
-        }}> Mark </button>        
+        <div className="iconosGridDer">
+              { isMarked ? 
+              <button className='buttonicon'
+              onClick={(e) => {
+                e.preventDefault();
+              }}>
+                <FcFullTrash />
+              </button>
+              :
+              <button 
+              onClick={(e) => {
+                e.preventDefault();
+                markPost(post);
+                console.log(isMarked);
+              }}>
+                <FaSave className='icButtonSave'/>
+              </button>
+              }                
+        </div>       
         <div className='InfoPost'>
             <p>Descripció: </p>
             {post.body}    
