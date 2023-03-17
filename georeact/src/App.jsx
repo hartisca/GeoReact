@@ -29,7 +29,7 @@ import CommentAdd from './Posts/Comentaris/CommentAdd';
 import CommentList from './Posts/Comentaris/CommentList';
 
 import ToDos from "./todos/ToDos";
-import PostMarks from "./Posts/Marks/PostMarks";
+import { PostMarks } from "./Posts/Marks/PostMarks";
 
 
 export default function App() {  

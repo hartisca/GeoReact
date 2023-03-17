@@ -1,29 +1,58 @@
-import React from 'react'
-import { useEffect, useReducer } from 'react'
-import PostMark from './PostMark'
-import { postMarkReducer } from './postMarkReducer'
+import React from "react";
+import { useEffect } from "react";
+import { useReducer } from "react";
+import { PostMark } from "./PostMark";
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { delmark } from "../../slices/postMarkSlice";
+import { PostMarksAdd } from "./PostMarksAdd";
 
 
-const PostMarks = () => {
+// Estat inicial del reducer. Buit
+const initialState = [];
+const init = () => {
+  // Si localstorage tornes null tornariem un array buit
+  return JSON.parse(localStorage.getItem("postmarks")) || [];
+};
 
-    const { postsMarks, isMarked } = useSelector(state => state.postsMarks);
+export const PostMarks = () => {
+  const { postMarks } = useSelector((state) => state.postMarks);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    localStorage.setItem("postmarks", JSON.stringify(postMarks));
+  }, [postMarks]);
 
-    useEffect(() => {
-      localStorage.setItem("postsMarks", JSON.stringify(postsMarks));
-    }, [postsMarks]);
+  
+  const handleDeleteMark = (id) => {
+    dispatch(delmark(id));
+  };
+  
 
-    console.log(postsMarks);
   return (
-    <div>
-      <h2>Markers</h2>
+    <>
+      <div className="h-100 w-full flex items-center justify-center bg-teal-lightest font-sans">
+        <div className="bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg">
+          
+          <div>
+            {postMarks.length == 0 ? (
+              <div className="bg-red-200 font-black grid place-content-center h-24">
+                <div>Aquí no hi ha res a veure</div>
+              </div>
+            ) : (
+              <></>
+            )}
+            {postMarks.map((mark) => (
+              <PostMark
+                key={mark.id}
+                postMark={mark}
+                handleDelete={handleDeleteMark}
+              />
+            ))}
 
-      {postsMarks.map((mark) => (
-        <PostMark key={mark.id} mark={mark}/>    
-      ))};
-  </div>
-  )
-}
-
-export default PostMarks
+            
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};

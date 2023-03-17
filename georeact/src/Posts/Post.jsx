@@ -7,89 +7,112 @@ import { FcLike } from 'react-icons/fc';
 import { FcFullTrash } from 'react-icons/fc';
 import { FaSave } from 'react-icons/fa';
 
-import { postMarkReducer } from './Marks/postMarkReducer';
-import PostMarks from './Marks/PostMarks';
 import { useDispatch, useSelector } from "react-redux";
-import { addpostMark } from '../slices/postMarkSlice';
-import { isMarked } from '../slices/postMarkSlice';
+import { addmark } from '../slices/postMarkSlice';
+import { ismarked } from '../slices/postMarkSlice';
 
 const initialState = [];
+
 const init = () => {
-  return JSON.parse(localStorage.getItem("postMark")) || [];
-}
+  // Si localstorage tornes null tornariem un array buit
+  return JSON.parse(localStorage.getItem("postmarks")) || [];
+};
 
-function Post() {
+function Post({ handle }) {
+  const { postMarks, isMarked } = useSelector(state => state.postMarks);
   let { id } = useParams();
-  let { email, setUserEmail, authToken, setAuthToken } = useContext(UserContext);
+  let { email, setEmail, authToken, setAuthToken } = useContext(UserContext);
+  let [refresh,setRefresh] = useState(false)
+  
   let [isLoading, setIsLoading] = useState(true)
-  let [post, setPost] = useState({});
+  let [post, setPost] = useState({
+    author:{name:""},
+    body:"",
+    latitude:"",
+    longitude:"",
+    likes_count:"",
+    visibility:"",
+    comments_count:"",
+    file:{filepath:""},
+    created_at:""
 
-  //const [ postsMarks, dispatchMarks ] = useReducer(postMarkReducer, initialState, init);
-  const { postsMarks, ismarked } = useSelector(state => state.postsMarks);
+  });
+
+  
 
   const { pathname } = useLocation();
   const dispatch = useDispatch();
 
-  const getPost = async(e) => {
+  const anotaPost = () => {
+    //e.preventDefault()
+    
+    const dada = {
+      id: post.id,
+      body: post.body,
+      ruta: pathname,
+    };
+
+    dispatch(addmark( dada))
+    console.log(dada);
+    alert("Has añadido este post a tus marcados!")
+  };
+
+  const getPost = async (e) => {
+    try {
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
+          headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ' + authToken
+          },
+          method: "GET",
+      })
+      const resposta = await data.json();
+          console.log(resposta);
+          if (resposta.success === true) {
+              setPost(resposta.data)
+              setIsLoading(false);
+          }else{
+             console.log(resposta.message);
+          }
+    }
+    catch {
+      console.log(data);
+      alert("Catch!");
+    }
+  }
+  useEffect(() => { getPost(); }, [refresh]);
+  
+  useEffect(() => {
+    dispatch(ismarked(id));
+    localStorage.setItem('postmarks', JSON.stringify(postMarks));
+  }, [postMarks]);
+  
+  const deletePost = async(id) => {
     try{
       
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/"+ id, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
           'Authorization': 'Bearer '  + authToken,
         },
-        method: "GET"
+        method: "DELETE"
       })
+
       const resposta = await data.json();
-      if (resposta.success === true) setPost(resposta.data), console.log(resposta), setIsLoading(false);
+      if (resposta.success === true)
+        console.log(resposta),
+        alert("Se ha eliminat correctament."),
+        setRefresh(!refresh);
       
-      else (console.log(resposta));
+      else alert("La resposta no a triomfat");
 
-      }catch{
-        console.log("Error");
-        alert("catch");  
-      }    
-  }  
-
-  // const handleMarkPost = () =>{
-  //   let mark = {
-  //     id: post.id, 
-  //     body: post.body,
-  //     ruta: pathname,
-  //   }
-    
-  //   const action = {
-  //     type: "Add Mark",
-  //     payload: mark,
-  //   }
-  //   dispatchMarks(action);
-  //   console.log("Afegit el mark")
-  // }
-
-  const markPost = (post) =>{
-    console.log(post);
-
-    const AddMark = {
-      id: new Date().getTime(),
-      postId: post.id,
-      body: post.body,
-      ruta: pathname,
-
+    }catch{
+      console.log("Error");
+      alert("catch");  
     }
-    dispatch(addpostMark(AddMark));
-    console.log(pathname);
-    alert("Has añadido este post a tus marcados!")
   }
-    useEffect(() => { 
-      getPost();
-      localStorage.setItem("postsMarks", JSON.stringify(postsMarks));},
-    [postsMarks]);
-
-    useEffect ( ()=> {
-      getPost();
-      dispatch(isMarked(id));
-    },[])
 
   return (
 
@@ -100,24 +123,17 @@ function Post() {
         <p>Latitud: {post.latitude}</p>
         <p>Longitud: {post.longitude}</p>
         <div className="iconosGridDer">
-              { isMarked ? 
-              <button className='buttonicon'
-              onClick={(e) => {
-                e.preventDefault();
-              }}>
-                <FcFullTrash />
-              </button>
-              :
-              <button 
-              onClick={(e) => {
-                e.preventDefault();
-                markPost(post);
-                console.log(isMarked);
-              }}>
-                <FaSave className='icButtonSave'/>
-              </button>
-              }                
-        </div>       
+              { !isMarked ? (<button
+                  className="buttonicon"
+                  onClick={(e) => anotaPost(e)}
+                >
+                  <FaSave className='icButtonSave'/>
+                </button>) : (<button
+                  className="buttonicon"
+                >
+                  <FaSave className='icButtonSaved'/>
+                </button>)}
+              </div>
         <div className='InfoPost'>
             <p>Descripció: </p>
             {post.body}    

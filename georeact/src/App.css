@@ -131,6 +131,14 @@ header p{
   justify-content: center;
 }
 
-
+.icButtonSave {
+	color: green;
+	font-size: 2.5em;
+	
+}
+.icButtonSaved {
+	color: red;
+	font-size: 2.5em;
+}
 
 
