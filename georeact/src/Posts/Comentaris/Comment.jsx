@@ -2,53 +2,25 @@ import React from "react";
 import { useContext } from "react";
 import { UserContext } from "../../userContext";
 import { CommentsContext } from "./CommentsContext";
+import { useDispatch, useSelector } from 'react-redux';
+import { delComment } from '../../slices/comments/thunks'
 
 import TimeAgo from "react-timeago";
 import catStrings from "react-timeago/lib/language-strings/ca";
 import buildFormatter from "react-timeago/lib/formatters/buildFormatter";
 
 export const Comment = ({ comment }) => {
-  let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
-  let { setAdd, setRefresca, commentsCount, setCommentsCount } =
-    useContext(CommentsContext);
   const formatter = buildFormatter(catStrings);
+  let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
+  const { comments = [], page=0, isLoading=true, add=true, error="", reviewsCount=0} = useSelector((state) => state.comments);
 
-  console.log(comment)
+  const dispatch = useDispatch();
 
-  const deleteComment = async (id, e) => {
-    const headers = {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + authToken,
-      },
-      method: "DELETE",
-    };
+  console.log(comment) 
 
-    e.preventDefault();
-
-    let confirma = confirm("Estas  segur?");
-
-    if (confirma) {
-      const data = await fetch(
-        "https://backend.insjoaquimmir.cat/api/posts/" + id + "/comments",
-          comment.comment.id +
-          "/comments/" +
-          comment.id,
-        headers
-      );
-      const resposta = await data.json();
-
-      console.log(resposta);
-      if (resposta.success == true) {
-        console.log("OK");
-        // provoca el refrescat del component i la reexecució de useEffect
-        setRefresca(true);
-        setAdd(true);
-        setCommentsCount(commentsCount - 1);
-      }
-    }
-  };
+  function isOwner(comment) {
+    return comment.user.email == usuari
+  }
 
   return (
     <div class="px-10">
@@ -83,14 +55,14 @@ export const Comment = ({ comment }) => {
                 </span>
               </div>
             </div>
-            {comment.user.email === usuari ? (
+            {isOwner ? (
               <>
                 <button
-                  onClick={(e) => deleteComment(comment.id, e)}
+                  onClick={() => dispatch( delComment(comment,authToken))}
                   type="button"
                   class="inline-block px-6 py-2 border-2 border-red-600 text-red-600 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
                 >
-                  Esborrar
+                  Esborra
                 </button>
 
                 {/* <a href="#" className=" w-max text-cyan-600" onClick={ (e)=> deletePlace(review.id,e) }> Esborrar</a> */}

@@ -1,79 +1,45 @@
 import React from "react";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import { useEffect } from "react";
 import { Comment } from "./Comment";
 
 import { useContext } from "react";
 import { UserContext } from "../../userContext";
 
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import  CommentAdd  from "./CommentAdd";
 import { CommentsContext } from "./CommentsContext";
 // Fem servir un context únicament dins de tots els components de Reviews
 
+import { getComments } from "../../slices/comments/thunks";
+import { setcommentsCount } from "../../slices/comments/commentSlice";
+
+
 const CommentList = ({id, comments_count}) => {
-     //let {setAdd, setRefresca, reviewsCount, setReviewsCount } = useContext(ReviewsContext)
-  let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
+  let { usuari, setUsuari, authToken, setAuthToken, email, userEmail } = useContext(UserContext);
 
-  let [error, setError] = useState("");
-  const [refresca, setRefresca] = useState(false);
-  const [add, setAdd] = useState(true);
-  const [commentsCount, setCommentsCount] = useState(comments_count);
+  const dispatch = useDispatch();
+  const { comments = [], page=0, isLoading=true, add=true, error="", reviewsCount=0} = useSelector((state) => state.comments);
 
-  const [reviews, setReviews] = useState([]);
 
-  // review ={v} setAdd={setAdd } setRefresca={ setRefresca}
-
-  const listComments = async () => {
-    const headers = {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + authToken,
-      },
-      method: "GET",
-    };
-
-    let data = await fetch(
-      "https://backend.insjoaquimmir.cat/api/posts/" + id + "/comments",
-      headers
-    );
-    let resposta = await data.json();
-    console.log(resposta);
-
-    if (resposta.success == true) { console.log(resposta.data); setReviews(resposta.data);}
-    else {
-      setError(resposta.message);
-    }
-
-    resposta.data.map((v) => {
-      if (v.user.email === usuari) {
-        setAdd(false);
-        console.log("Te review");
-      }
-    });
-  };
 
   useEffect(() => {
-    listComments();
-    setRefresca(false);
-  }, [refresca]);
+    dispatch(setcommentsCount(comments_count));
+    dispatch(getComments(0, id, authToken, email));
+  }, []);
 
   return (
-    <CommentsContext.Provider
-    value={{ setAdd, setRefresca, commentsCount, setCommentsCount }}
-  >
-    {add ? <CommentAdd id={id} /> : <></>}
-    <div class="flex mx-auto items-center justify-center  mt-6 mx-8 mb-4 max-w-lg">
-      {commentsCount == 0 ? (
-        <div className="flex mb-4 w-full items-center space-x-2 rounded-2xl bg-red-50 px-4 ring-2 ring-red-200">
-          No hi ha reviews
-        </div>
-      ) : (
-        <div className="flex mb-4 w-full items-center space-x-2 rounded-2xl bg-blue-50 px-4 ring-2 ring-blue-200">
-          Hi ha {commentsCount} {commentsCount > 1 ? " ressenyes" : " ressenya"}{" "}
-        </div>
-      )}
-    </div>
+  <>
+    { add ? <CommentAdd id={id}/>:""}
+    <Container className="bg-secondary mw-100">
+        <Row>
+        {comments.map((v) => {
+          return <Comment key={v.id} comment={v} />;
+        })}
+        </Row>
+    </Container>
 
     {error ? (
       <div className="flex mb-4 w-full items-center space-x-2 rounded-2xl bg-red-50 px-4 ring-2 ring-red-200 ">
@@ -83,10 +49,8 @@ const CommentList = ({id, comments_count}) => {
       <></>
     )}
 
-    {reviews.map((v) => {
-      return <Comment key={v.id} comment={v} />;
-    })}
-  </CommentsContext.Provider>
+    
+  </>
 );
   
 }
