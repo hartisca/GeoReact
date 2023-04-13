@@ -7,11 +7,14 @@ import { Link } from "react-router-dom";
 import { CiEdit } from 'react-icons/ci';
 import { FcFullTrash } from 'react-icons/fc';
 import { BsEye } from 'react-icons/bs';
+import { useDispatch } from 'react-redux';
 
 
 
 function PostList({post, deletePost}) {
   let { email, setUserEmail } = useContext(UserContext);
+  const dispatch = useDispatch();
+  
   return (    
       <>
         <td>{post.id}</td>

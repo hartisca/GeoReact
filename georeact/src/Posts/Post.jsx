@@ -11,41 +11,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { addmark } from '../slices/postMarkSlice';
 import { ismarked } from '../slices/postMarkSlice';
 
-const initialState = [];
+import { getPost } from '../slices/posts/thunks';
+
+
 
 const init = () => {
   // Si localstorage tornes null tornariem un array buit
   return JSON.parse(localStorage.getItem("postmarks")) || [];
 };
 
-function Post({ handle }) {
+function Post() {
   const { postMarks, isMarked } = useSelector(state => state.postMarks);
-  let { id } = useParams();
-  let { email, setEmail, authToken, setAuthToken } = useContext(UserContext);
-  let [refresh,setRefresh] = useState(false)
-  
-  let [isLoading, setIsLoading] = useState(true)
-  let [post, setPost] = useState({
-    author:{name:""},
-    body:"",
-    latitude:"",
-    longitude:"",
-    likes_count:"",
-    visibility:"",
-    comments_count:"",
-    file:{filepath:""},
-    created_at:""
-
-  });
-
-  
-
+  const { post, isLoading } = useSelector(state => state.post);
   const { pathname } = useLocation();
   const dispatch = useDispatch();
+  const { id } = useParams();  
+  let { email, setEmail, authToken, setAuthToken } = useContext(UserContext);
+
+  let [refresh,setRefresh] = useState(false)
 
   const anotaPost = () => {
-    //e.preventDefault()
-    
+        
     const dada = {
       id: post.id,
       body: post.body,
@@ -57,31 +43,10 @@ function Post({ handle }) {
     alert("Has añadido este post a tus marcados!")
   };
 
-  const getPost = async (e) => {
-    try {
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "GET",
-      })
-      const resposta = await data.json();
-          console.log(resposta);
-          if (resposta.success === true) {
-              setPost(resposta.data)
-              setIsLoading(false);
-          }else{
-             console.log(resposta.message);
-          }
-    }
-    catch {
-      console.log(data);
-      alert("Catch!");
-    }
-  }
-  useEffect(() => { getPost(); }, [refresh]);
+  
+  useEffect(() => { 
+    dispatch(getPost(authToken, id)); 
+  }, [refresh]);
   
   useEffect(() => {
     dispatch(ismarked(id));
@@ -114,9 +79,11 @@ function Post({ handle }) {
     }
   }
 
+
   return (
 
-    <>{(isLoading == true) ? <div>Carregant dades...</div> :
+    <>{(isLoading == true) ? <div>Carregant dades...</div> : 
+
     <div className='containerGridandcomment'>
       <img className="imgGrid" src={"https://backend.insjoaquimmir.cat/storage/" + post.file.filepath } alt={ post.file.id } width="300"/>
         <p>Autor: {post.author.name}</p>
@@ -148,8 +115,7 @@ function Post({ handle }) {
             }
         </div>  
         
-          <div className='commentContainer'><CommentList id={post.id}/></div> 
-               
+          <div className='commentContainer'><CommentList id={post.id}/></div>                
     </div>
   }
   </> 

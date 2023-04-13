@@ -75,7 +75,7 @@ export const addComment = (comment, id, authToken) => {
 
         formData.append("comment", comment);
 
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/"+id+"/comments", {
+        const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id + "/comments", {
             headers: {
                 'Accept': 'application/json',
                 'Authorization': 'Bearer ' + authToken 

@@ -3,20 +3,19 @@ import { UserContext } from "../userContext";
 import PostList from './PostList';
 
 import useFetch from '../hooks/useFetch';
+import { useDispatch, useSelector } from 'react-redux';
+import { startLoadingPosts } from '../slices/posts/postSlice';
+import { getPosts } from '../slices/posts/thunks';
 
 function PostsList() {
-    let { authToken, setAuthToken, userEmail, setUserEmail } = useContext(UserContext);    
-    
-    let {data, error, loading, reRender} = useFetch('https://backend.insjoaquimmir.cat/api/posts',
-      {
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            'Authorization': 'Bearer ' + authToken
-        },
-        method: "GET",
-      }
-    )
+    let { authToken, setAuthToken, userEmail, setUserEmail } = useContext(UserContext);   
+    const { posts = [], page = 0, isLoading = true, error = "" } = useSelector((state) => state.post);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+      dispatch(getPosts(authToken));
+      dispatch(startLoadingPosts());
+    }, []);
 
      const deletePost = async(id) => {
         try{
@@ -45,7 +44,7 @@ function PostsList() {
 
     return (
         <>
-        {!loading ? 
+        {isLoading ? 
         <table className='postTable'>
             <tbody>
                 <tr>
@@ -61,7 +60,7 @@ function PostsList() {
                     <th>Delete</th>
                 </tr>
                 
-                { data.data.map ( (post)=> (
+                { posts.map ( (post)=> (
                     (post.visibility.name != 'private' || userEmail == post.author.email) &&
                     (<tr key={post.id}>
                         <PostList post={post} deletePost={deletePost} /></tr>)

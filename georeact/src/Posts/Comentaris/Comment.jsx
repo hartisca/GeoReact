@@ -12,7 +12,7 @@ import buildFormatter from "react-timeago/lib/formatters/buildFormatter";
 export const Comment = ({ comment }) => {
   const formatter = buildFormatter(catStrings);
   let { usuari, setUsuari, authToken, setAuthToken } = useContext(UserContext);
-  const { comments = [], page=0, isLoading=true, add=true, error="", reviewsCount=0} = useSelector((state) => state.comments);
+  const { comments = [], page = 0, isLoading = true, add = true, error = "", reviewsCount = 0 } = useSelector((state) => state.comments);
 
   const dispatch = useDispatch();
 
