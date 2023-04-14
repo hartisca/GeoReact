@@ -1,10 +1,12 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
-import { useContext, useEffect } from "react";
 import { UserContext } from "../userContext";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { editPost, getPost } from "../slices/posts/thunks"
+
+
 
 
 function PostEdit() {
@@ -12,6 +14,8 @@ function PostEdit() {
   let [ formulari, setFormulari ] = useState({});
   let { authToken, setAuthToken } = useContext(UserContext);
   let navigate = useNavigate();
+  let dispatch = useDispatch();
+  let { post = {}, isLoading=true, message=""} = useSelector((state) => state.post);
    
   const handleChange = (e) => {
     e.preventDefault();
@@ -21,68 +25,21 @@ function PostEdit() {
     });
   };
   
-    const getPost = async(e) => {
-      try{
-        
-          const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            'Authorization': 'Bearer '  + authToken,
-          },
-          method: "GET"
-        })
-        const resposta = await data.json();
-        if (resposta.success === true) console.log(resposta), setFormulari({              
-          body : resposta.data.body,
-          upload : resposta.data.file,
-          latitude : resposta.data.latitude,
-          longitude : resposta.data.longitude,
-          visibility : resposta.data.visibility.id
-        })
-                    
-        else {
-          alert("La resposta no a triomfat");
-        }
-  
-        }catch{
-          console.log("Error");
-        }
-        
-    }
+    
     useEffect(() => 
-    { getPost() },
-     []);
+    { 
+      dispatch(getPost(authToken, id))
+    }, []);
 
+    useEffect(() => {
+      setFormulari({
+        body: post.body,      
+        longitude: post.longitude,      
+        latitude: post.latitude,      
+        visibility: post.visibility.id      
+      })
+    }, [post]);
 
-    const sendPost = async(e) => {
-      e.preventDefault();
-      let {body,upload,latitude,longitude,visibility}=formulari;
-      const formData = new FormData();      
-      formData.append("body", body);
-      formData.append("upload", upload);
-      formData.append("latitude", latitude);
-      formData.append("longitude", longitude);
-      formData.append("visibility", visibility);
-      try{
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + authToken,
-          },
-          method: "POST",
-          body: formData
-        })
-        const resposta = await data.json();
-        if (resposta.success === true) console.log(resposta), navigate("/posts/"+ id);
-
-        else alert("Error");
-          
-      }catch{
-        console.log("Error");       
-      }
-      
-    };
   return (
     <>
       <div className="containerAdd">
@@ -117,7 +74,8 @@ function PostEdit() {
             
               <button
             onClick={(e) => {
-              sendPost(e);
+              e.preventDefault()
+              dispatch(editPost(id,authToken,formulari));             
             }}>
             Submit
           </button> 

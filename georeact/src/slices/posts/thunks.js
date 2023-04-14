@@ -1,4 +1,4 @@
-  import { setAdd, startLoadingPosts, setError, setPosts, setPost } from "./postSlice";
+  import { setAdd, startLoadingPosts, setError, setPosts, setPost, setMessage } from "./postSlice";
 
 
   export const getPosts = (authToken) => {
@@ -88,4 +88,36 @@
         console.log(resposta);            
       }
     }     
+  }
+
+  export const editPost = (id, authToken, formulari) => {
+        
+
+    return async (dispatch, state) => {
+      dispatch(startLoadingPosts());
+
+      
+      let {body,upload,latitude,longitude,visibility}=formulari;
+      const formData = new FormData();      
+      formData.append("body", body);
+      formData.append("upload", upload);
+      formData.append("latitude", latitude);
+      formData.append("longitude", longitude);
+      formData.append("visibility", visibility);
+      console.log(formData);
+      console.log("ccccccc")
+
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + authToken,
+          },
+          method: "POST",
+          body: formData
+        })
+        const resposta = await data.json();
+        if (resposta.success === true) dispatch(setMessage("Post editat correctament"));
+
+        else {dispatch(setMessage(resposta.message)); console.log(resposta.message)}
+    }
   }

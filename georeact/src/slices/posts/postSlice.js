@@ -17,6 +17,7 @@ const initialState = {
     page: 0,
     isLoading: false,
     error: "",
+    message: "",
 };
 
 
@@ -70,10 +71,13 @@ export const postSlice = createSlice({
         
         state.isLoading = false
     },
+    setMessage: (state, action) => {
+        state.message = action.payload
+    }
  }, 
 })
 
 // Action creators are generated for each case reducer function
-export const { startLoadingPosts, setAdd, setError, setPosts, setPost } = postSlice.actions
+export const { startLoadingPosts, setAdd, setError, setPosts, setPost, setMessage } = postSlice.actions
 
 export default postSlice.reducer
