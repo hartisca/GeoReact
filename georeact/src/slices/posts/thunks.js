@@ -3,7 +3,7 @@
 
   export const getPosts = (authToken) => {
 
-    return async (dispatch, setState) => {
+    return async (dispatch, getState) => {
       dispatch(startLoadingPosts());
 
       const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/", {
@@ -16,10 +16,10 @@
       })
     
     const resposta = await data.json();
-    console.log(resposta);
     if (resposta.success === true) {
-        dispatch(setPosts(resposta.data));
-        dispatch(startLoadingPosts(false));
+      console.log(resposta.data);
+
+      dispatch(setPosts(resposta.data));
         
     }else{
        console.log(resposta.message);
@@ -42,7 +42,7 @@
         })
 
         const resposta = await data.json();
-        console.log(resposta)
+        
         if (resposta.success == true) {
           dispatch(setPost(resposta.data));
         }
@@ -88,4 +88,4 @@
         console.log(resposta);            
       }
     }     
-}
+  }

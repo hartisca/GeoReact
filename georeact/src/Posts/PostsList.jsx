@@ -14,8 +14,12 @@ function PostsList() {
 
     useEffect(() => {
       dispatch(getPosts(authToken));
-      dispatch(startLoadingPosts());
     }, []);
+
+    useEffect(()=>{
+      console.log(posts)
+      console.log(isLoading)
+    },[posts])
 
      const deletePost = async(id) => {
         try{
@@ -44,7 +48,7 @@ function PostsList() {
 
     return (
         <>
-        {isLoading ? 
+        {!isLoading ? 
         <table className='postTable'>
             <tbody>
                 <tr>

@@ -12,6 +12,6 @@ export const store = configureStore({
       todos: todosReducer,
       postMarks: postReducer,
       comments: commentReducer,
-      post: postReducer
+      post: postSlice
     }
 })
