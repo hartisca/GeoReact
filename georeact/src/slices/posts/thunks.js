@@ -1,31 +1,50 @@
-  import { setAdd, startLoadingPosts, setError, setPosts, setPost, setMessage } from "./postSlice";
+  import { setAdd, startLoadingPosts, setError, setPosts, setPost, setMessage, setPages } from "./postSlice";
 
 
-  export const getPosts = (authToken) => {
+  export const getPosts = (authToken, page=0) => {
 
     return async (dispatch, getState) => {
-      dispatch(startLoadingPosts());
 
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/", {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + authToken,
-        },
-        method: "GET",
-      })
-    
-    const resposta = await data.json();
-    if (resposta.success === true) {
-      console.log(resposta.data);
+        dispatch(startLoadingPosts());
 
-      dispatch(setPosts(resposta.data));
-        
-    }else{
-       console.log(resposta.message);
+        const url =
+        page > 0 
+        ? "https://backend.insjoaquimmir.cat/api/posts?paginate=1&page=" + page
+        : "https://backend.insjoaquimmir.cat/api/posts";
+
+        const headers = {
+          headers: {          
+            Accept: "application/json",
+          
+            "Content-Type": "application/json",
+          
+            Authorization: "Bearer " + authToken,          
+          },          
+          method: "GET",          
+        };
+        const data = await fetch(url, headers);
+ 
+        const resposta = await data.json();
+
+        if (resposta.success == true) {
+
+            if (page > 0) {
+              dispatch(setPosts(resposta.data.collection));
+                
+              dispatch(setPages(resposta.data.links));
+                                
+            } else {
+                
+              dispatch(setPosts(resposta.data));
+                
+            }
+        }
+
+        else {
+          dispatch(setMessage(resposta.message));
+        }
+      };
     }
-  }};
-
   
   export const getPost = (authToken, id) => {
 
@@ -50,9 +69,7 @@
           dispatch(setError(resposta.error));
         }
     };
-  }
-
-  
+  }  
 
   export const addPost = (formulari, authToken) => {
 

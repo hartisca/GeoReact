@@ -13,11 +13,13 @@ const initialState = {
         visibility:"",
         latitude: 0,
         longitude: 0,
-    },
-    page: 0,
+    },  
+    page: 0,  
     isLoading: false,
     error: "",
     message: "",
+    page: 1,
+    pages: [],
 };
 
 
@@ -73,11 +75,20 @@ export const postSlice = createSlice({
     },
     setMessage: (state, action) => {
         state.message = action.payload
-    }
+    },
+    setPage: (state,action) => {
+
+        state.page = action.payload        
+    },
+
+    setPages: (state,action) => {
+
+        state.pages = action.payload        
+    },
  }, 
 })
 
 // Action creators are generated for each case reducer function
-export const { startLoadingPosts, setAdd, setError, setPosts, setPost, setMessage } = postSlice.actions
+export const { startLoadingPosts, setAdd, setError, setPosts, setPost, setMessage, setPage, setPages } = postSlice.actions
 
 export default postSlice.reducer

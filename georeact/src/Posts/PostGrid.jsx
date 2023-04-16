@@ -11,7 +11,7 @@ import { FcFullTrash } from 'react-icons/fc';
 import { CiEdit } from 'react-icons/ci';
 
 
-export const PostGrid = ({ post, deletePost }) => {
+export const PostGrid = ({ post }) => {
     let { usuari, setUsuari, authToken, setAuthToken, email, setUserEmail } = useContext(UserContext)
     return(
         <>
