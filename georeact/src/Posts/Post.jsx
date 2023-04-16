@@ -4,7 +4,6 @@ import { UserContext } from '../userContext';
 import  CommentList  from './Comentaris/CommentList'
 
 import { FcLike } from 'react-icons/fc';
-import { FcFullTrash } from 'react-icons/fc';
 import { FaSave } from 'react-icons/fa';
 
 import { useDispatch, useSelector } from "react-redux";
@@ -60,7 +59,7 @@ function Post() {
   };
 
   
-  useEffect(() => { 
+  useEffect(() => {     
     dispatch(getPost(authToken, id)); 
   }, [refresh]);
   
@@ -68,38 +67,6 @@ function Post() {
     dispatch(ismarked(id));
     localStorage.setItem('postmarks', JSON.stringify(postMarks));
   }, [postMarks]);
-
-  /**
-   * Asynchronous function that deletes the post with the specified ID.
-   * @param {string} id - The ID of the post to delete.
-   */
-  
-  const deletePost = async(id) => {
-    try{
-      
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/"+ id, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer '  + authToken,
-        },
-        method: "DELETE"
-      })
-
-      const resposta = await data.json();
-      if (resposta.success === true)   
-        console.log(resposta),
-        alert("Se ha eliminat correctament."),
-        setRefresh(!refresh);            
-      
-      else alert("La resposta no a triomfat");
-
-    }catch{
-      console.log("Error");
-      alert("catch");  
-    }
-  }
-
 
   return (
 
@@ -127,15 +94,7 @@ function Post() {
             {post.body}    
         </div>
           <FcLike />{post.likes_count}  
-        <div>
-          {(email == post.author.email) ?
-            <i onClick={() => {
-                deletePost(post.id);
-            }}><FcFullTrash /></i>
-            : <div></div>
-            }
-        </div>  
-        
+       
           <div className='commentContainer'><CommentList id={post.id}/></div>                
     </div>
   }

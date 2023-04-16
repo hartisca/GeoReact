@@ -44,7 +44,7 @@ export default function App() {
   return (
     <>
       <UserContext.Provider
-        value = { { usuari, setUsuari, authToken, setAuthToken, email,setUserEmail } }
+        value = { { usuari, setUsuari, authToken, setAuthToken, email, setUserEmail } }
         // { authToken, setAuthToken } equival a  { authToken: authToken, setAuthToken:setAuthToken}
       >
         {authToken ? (

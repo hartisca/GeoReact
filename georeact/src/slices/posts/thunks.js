@@ -121,3 +121,23 @@
         else {dispatch(setMessage(resposta.message)); console.log(resposta.message)}
     }
   }
+
+export const delPost = (id, authToken) => {
+
+  return async (dispatch, getState) => {
+    const data = await fetch("https://backend.insjoaquimmir.cat/api/posts" + id, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer" + authToken,
+      },
+      method: "DELETE",
+    })
+    const resposta = await data.json();
+    if(resposta.success == true){
+      dispatch(setMessage("Post eliminat"))
+    } else {
+      dispatch(setMessage(resposta.message))
+    }
+  }
+}

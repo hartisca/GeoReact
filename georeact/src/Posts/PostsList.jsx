@@ -8,7 +8,7 @@ import { startLoadingPosts } from '../slices/posts/postSlice';
 import { getPosts } from '../slices/posts/thunks';
 
 function PostsList() {
-    let { authToken, setAuthToken, userEmail, setUserEmail } = useContext(UserContext);   
+    let {authToken,setAuthToken, email, setUserEmail} = useContext(UserContext)   
     const { posts = [], page = 0, isLoading = true, error = "" } = useSelector((state) => state.post);
     const dispatch = useDispatch();
 
@@ -20,32 +20,7 @@ function PostsList() {
       console.log(posts)
       console.log(isLoading)
     },[posts])
-
-     const deletePost = async(id) => {
-        try{
-          
-            const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/"+ id, {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              'Authorization': 'Bearer '  + authToken,
-            },
-            method: "DELETE"
-          })
-          const resposta = await data.json();
-          if (resposta.success === true){
-            console.log(resposta), 
-            reRender();
-          }
-          else alert("La resposta no a triomfat");
-    
-          }catch{
-            console.log("Error");
-            alert("catch");  
-          }
-          
-      }
-
+     
     return (
         <>
         {!isLoading ? 
@@ -59,15 +34,13 @@ function PostsList() {
                     <th>Latitude</th>                    
                     <th>Longitude</th>
                     <th>Likes</th>
-                    <th>View</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Actions</th>                    
                 </tr>
                 
                 { posts.map ( (post)=> (
-                    (post.visibility.name != 'private' || userEmail == post.author.email) &&
+                    (post.visibility.name != 'private' || email == post.author.email) &&
                     (<tr key={post.id}>
-                        <PostList post={post} deletePost={deletePost} /></tr>)
+                        <PostList post={post} /></tr>)
                 ))}
                 
             </tbody>
