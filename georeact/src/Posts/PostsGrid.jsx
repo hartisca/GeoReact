@@ -8,12 +8,12 @@ import { getPosts } from '../slices/posts/thunks';
 
 function PostsGrid() {
   let {authToken,setAuthToken,usuari, setUsuari} = useContext(UserContext)
-  const { posts = [], page=0, isLoading=true, message="",} = useSelector((state) => state.post);
+  const { posts = [], page=0, isLoading=true, message="", filter} = useSelector((state) => state.post);
   const dispatch = useDispatch();
 
   useEffect(() => {
       dispatch(getPosts(authToken, page));        
-  }, [page]);
+  }, [page, filter]);
 
   return (
     <>

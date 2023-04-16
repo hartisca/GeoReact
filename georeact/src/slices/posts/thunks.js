@@ -1,16 +1,11 @@
-  import { setAdd, startLoadingPosts, setError, setPosts, setPost, setMessage, setPages } from "./postSlice";
+  import { setAdd, startLoadingPosts, setError, setPosts, setPost, setMessage, setPages, setFilter } from "./postSlice";
 
 
   export const getPosts = (authToken, page=0) => {
 
     return async (dispatch, getState) => {
 
-        dispatch(startLoadingPosts());
-
-        const url =
-        page > 0 
-        ? "https://backend.insjoaquimmir.cat/api/posts?paginate=1&page=" + page
-        : "https://backend.insjoaquimmir.cat/api/posts";
+        dispatch(startLoadingPosts());        
 
         const headers = {
           headers: {          
@@ -22,22 +17,33 @@
           },          
           method: "GET",          
         };
+
+        const filtre = getState().post.filter
+        console.log(filtre);
+                
+        let url =
+        page > 0
+        ? "https://backend.insjoaquimmir.cat/api/posts?paginate=1&page=" + page
+        : "https://backend.insjoaquimmir.cat/api/posts";
+
+        let inter = page > 0 ? "&" : "?";
+        let body = filtre.body == "" ? "" : "body="+filtre.body;
+        let author = filtre.author == "" ? "" : "author="+filtre.author;
+
+        url = url + inter + body + "&" + author;
+        console.log(url);
         const data = await fetch(url, headers);
  
         const resposta = await data.json();
 
         if (resposta.success == true) {
 
-            if (page > 0) {
-              dispatch(setPosts(resposta.data.collection));
-                
-              dispatch(setPages(resposta.data.links));
-                                
-            } else {
-                
-              dispatch(setPosts(resposta.data));
-                
-            }
+          if (page > 0) {
+            dispatch(setPosts(resposta.data.collection));                
+            dispatch(setPages(resposta.data.links));                                
+          } else {                
+            dispatch(setPosts(resposta.data));                
+          }
         }
 
         else {

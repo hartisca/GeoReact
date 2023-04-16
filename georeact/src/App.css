@@ -150,4 +150,15 @@ header p{
  
 }
 
+.btn5{
+  background-color: rgb(201, 241, 214);
+  border: 1px solid rgb(43, 104, 124);
+  margin: 2px;
+}
+.btn6{
+  background-color: rgb(225, 187, 172);
+  border: 1px solid rgb(230, 157, 203);
+  margin: 2px;
+}
+
 

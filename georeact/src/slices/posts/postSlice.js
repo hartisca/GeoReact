@@ -20,6 +20,7 @@ const initialState = {
     message: "",
     page: 1,
     pages: [],
+    filter: {body:"", author: ""},
 };
 
 
@@ -85,10 +86,15 @@ export const postSlice = createSlice({
 
         state.pages = action.payload        
     },
+    setFilter: (state,action) => {
+
+        state.filter = action.payload
+               
+    },
  }, 
 })
 
 // Action creators are generated for each case reducer function
-export const { startLoadingPosts, setAdd, setError, setPosts, setPost, setMessage, setPage, setPages } = postSlice.actions
+export const { startLoadingPosts, setAdd, setError, setPosts, setPost, setMessage, setPage, setPages, setFilter } = postSlice.actions
 
 export default postSlice.reducer
