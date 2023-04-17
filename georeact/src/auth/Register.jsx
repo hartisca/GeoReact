@@ -5,9 +5,11 @@ import { UserContext } from '../userContext';
 import { useForm } from '../hooks/useForm'
 
 
-export default function Register({setRegister}) {    
-    let { authToken, setAuthToken } = useContext(UserContext)
 
+
+export default function Register({setRegister}) {   
+    let { authToken, setAuthToken } = useContext(UserContext) 
+   
     const { formState, onInputChange, resetForm } = useForm({
         name: "",
         email: "",        
