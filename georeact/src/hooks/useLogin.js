@@ -3,7 +3,7 @@ import { UserContext } from '../userContext'
 
 
 function useLogin() {
-    let {user, setUser, authToken, setAuthToken} = useContext(UserContext);
+    let {usuari, setUsuari, email, setUserEmail, authToken, setAuthToken} = useContext(UserContext);
 
     const checkAuthToken = async () => {
 
@@ -22,6 +22,8 @@ function useLogin() {
                 const resposta = await data.json();
                 if (resposta.success === true){
                     setAuthToken(validToken);
+                    setUserEmail(resposta.email);
+                    setUsuari(resposta.usuari);
                 }else{
                     setAuthToken("");
                 }
@@ -50,8 +52,9 @@ function useLogin() {
             if(resposta.success === true){
                 setAuthToken(resposta.authToken)
                 localStorage.setItem("authToken",resposta.authToken);
-                setUser(email);
-                console.log(resposta.authToken, user);
+                setUser(resposta.usuari);
+                setUserEmail(resposta.email);
+                console.log(resposta.authToken, usuari);
             }else{
                 console.log('error LOGIN');
             }

@@ -15,6 +15,7 @@ import { setFilter } from '../slices/posts/postSlice';
 
 function PostsMenu() {
   let {usuari, setUsuari} = useContext(UserContext)
+
     const dispatch = useDispatch()
     const { formState, onInputChange } = useForm({
         search: "",
@@ -23,7 +24,7 @@ function PostsMenu() {
 
     const {filter} = useSelector((state) => state.post)
 
-    let idUser = usuari.id;
+   
   return (
       <>
     <Navbar className='postsMenu justify-content-end'>

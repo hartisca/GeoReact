@@ -5,8 +5,6 @@ import { UserContext } from '../userContext';
 import { useForm } from '../hooks/useForm'
 
 
-
-
 export default function Register({setRegister}) {   
     let { authToken, setAuthToken } = useContext(UserContext) 
    
