@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: PlaceAdd.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: PlaceAdd.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useContext, useState, useEffect } from 'react'
+import { UserContext } from "../userContext";
+import { useNavigate } from "react-router-dom";
+
+
+/**
+ * This is a function for adding a new place object.
+ * @function
+ * @component
+ */
+
+export function PlaceAdd () {
+
+
+/**
+ * Declares the state variable using the hooks  useParams, useState, useContext and useNavigate.
+ * @type {const} 
+ * @type {variable}
+ * @property {object} formulari
+ * @property {object} authoken
+ * @property {object} error
+ * @property {variable} navigate
+*/
+  let [formulari, setFormulari] = useState({});
+  let { authToken,setAuthToken } = useContext(UserContext);
+  let [error, setError] = useState("");
+
+
+  let navigate = useNavigate();
+
+/**
+   * A function that updates the form state variable
+   * when a form field is changed.
+   * @function
+   * @param {Object} e - The event object
+   */
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    if (e.target.name==="upload")
+      {
+        console.log(e.target.files[0].name)
+        setFormulari({
+          ...formulari,
+          [e.target.name] : e.target.files[0] 
+
+        })
+      }
+    else {
+          setFormulari({
+            ...formulari,
+            [e.target.name] : e.target.value
+
+          })
+      }
+  }
+
+  /**
+   * A function that sends a POST request to the backend API
+   * to add a new place.
+   * @function
+   * @requires authoken as authoritzation, its previously given by the state variable previously delared.
+   * @param {Object} e - The event object
+   */
+    const addPlace = async(e) => {
+      e.preventDefault();
+      let {name,description,upload,latitude,longitude,visibility=1}=formulari;
+      console.log(formulari);
+   
+
+      try{
+        const data = await fetch("https://backend.insjoaquimmir.cat/api/places", {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + authToken
+          },
+          method: "POST",
+          body: formData
+
+        })
+        const resposta = await data.json();
+        if (resposta.success === true){
+          console.log(resposta);
+          alert("Place creado correctamente");
+          setFormulari(resposta)
+          navigate("/places/")
+        } 
+
+        else{
+          console.log(formulari)
+          setError(resposta.message);
+        } 
+          
+      }catch{
+        console.log("Error");
+        alert("catch");
+      }
+      
+    }
+
+    /**
+   * This hook runs after the component has mounted (only once), and after getting the user's coordenades from the method "getCurrentPosition"
+   * sets the latitude and longitude fields of form.
+   * @function
+   */
+    useEffect(() => {
+      addPlace();
+      navigator.geolocation.getCurrentPosition( (pos )=> {
+
+        setFormulari({
+    
+          ...formulari,
+          latitude :  pos.coords.latitude,
+          longitude: pos.coords.longitude
+      
+        })
+        
+        console.log("Latitude is :", pos.coords.latitude);
+        console.log("Longitude is :", pos.coords.longitude);
+      });
+
+    }, [])
+
+  // Render the component
+  
+  return (
+    &lt;div>
+        &lt;div>
+          &lt;form id="formulari">
+            &lt;div>&lt;h1>Add Place&lt;/h1>&lt;/div>
+
+            &lt;div>
+              &lt;label>Name: &lt;/label>
+              &lt;input type="text" placeholder="Name" id="name" name="name" onChange={handleChange}/>
+            &lt;/div>
+
+            &lt;div>
+              &lt;label>Description: &lt;/label>
+              &lt;input type="text" placeholder="Description" id="description" name="description" onChange={handleChange}/>
+            &lt;/div>
+
+            &lt;div>
+            &lt;label>Latitude: &lt;/label>
+              &lt;input type="number" placeholder="Latitude" id="latitude" name="latitude" value = { formulari.latitude } onChange={handleChange}/>
+            &lt;/div>
+
+            &lt;div>
+            &lt;label>Longitude: &lt;/label>
+              &lt;input type="number"placeholder="Longitude" id="longitude" name="longitude" value = { formulari.longitude } onChange={handleChange}/>
+            &lt;/div>
+
+            &lt;div>
+              &lt;label>Visibility: &lt;/label>
+              &lt;select value= {formulari.visibility } onChange={handleChange} id="visibility" name="visibility"  >
+                &lt;option  value="1" selected >Public&lt;/option>
+                &lt;option  value="3" >Private&lt;/option>
+                &lt;option  value="2" >Contacts&lt;/option>
+              &lt;/select>
+            &lt;/div>
+
+            &lt;div>
+              &lt;label>File: &lt;/label>
+              &lt;input type="file" placeholder="Upload" id="upload" name="upload" onChange={handleChange}/>
+            &lt;/div>
+            &lt;div>{ error ? (&lt;div className="mensaje-error"> {error}&lt;/div>) : (&lt;>&lt;/>)}&lt;/div>
+            &lt;button
+              onClick={(e) => {
+                addPlace(e);
+              }}>
+              Submit
+            &lt;/button>		
+
+          &lt;/form>
+        &lt;/div>		
+    &lt;/div>
+  )
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Place">Place</a></li><li><a href="global.html#PlaceAdd">PlaceAdd</a></li><li><a href="global.html#PlaceEdit">PlaceEdit</a></li><li><a href="global.html#PlaceList">PlaceList</a></li><li><a href="global.html#PlacesGrid">PlacesGrid</a></li><li><a href="global.html#PlacesMenu">PlacesMenu</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Apr 14 2023 17:30:00 GMT+0200 (Hora d’estiu del Centre d’Europa)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

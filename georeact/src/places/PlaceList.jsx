@@ -3,10 +3,19 @@ import { React } from 'react'
 import { useContext } from "react";
 import { UserContext } from "../userContext";
 import { Link } from 'react-router-dom';
-
+/**
+ * 
+ * @param {object} place 
+ * @returns {jsx} the visualitzation of the objects place in the component and the links to other functions from another components.
+ */
 export function PlaceList({place}) {
 
-
+/**
+ * Declares the state variable using the hook useContext
+ * @type {variable} 
+ * @property {object} usuari
+ * @property {object} setUsuari
+ */
   let { usuari, setUsuari } = useContext(UserContext);
   
   return (    

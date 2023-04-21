@@ -4,11 +4,25 @@ import { UserContext } from '../userContext';
 
 import { PlaceGrid } from './PlaceGrid';
 
-
+/** This component displays the visualitzation of the place's grid.
+ * @component
+ * @function
+ * @returns {jsx} 
+ */
 export function PlacesGrid () {
+  
   let [ places, setPlaces] = useState([]);
   let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
  
+
+/**
+ * This asyncron function gets the object place from the API via the GET method
+ * @function
+ * @async
+ * @param {Event} e - The event that triggers the function call.  
+ * @returns {Promise}
+ */
+
 
 
   const getPlaces = async (e) => {

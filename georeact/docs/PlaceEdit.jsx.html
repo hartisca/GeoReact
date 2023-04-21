@@ -1,4 +1,32 @@
-import React from 'react'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: PlaceEdit.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: PlaceEdit.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react'
 import { useState } from 'react';
 
 import { useContext, useEffect } from "react";
@@ -139,50 +167,73 @@ export function PlaceEdit() {
     }
   }
   return (
-    <>
-      <div className="containerAdd">
-        <form id="formAddPlace"className="addPlace">
-              <div className="title"><h3>Update your Place</h3></div>
-              <div>
-              <label>Name: </label>
-              <input type="text"placeholder="Name" id="name" name="name" value = { formulari.name } onChange={handleChange}/>
-            </div>
+    &lt;>
+      &lt;div className="containerAdd">
+        &lt;form id="formAddPlace"className="addPlace">
+              &lt;div className="title">&lt;h3>Update your Place&lt;/h3>&lt;/div>
+              &lt;div>
+              &lt;label>Name: &lt;/label>
+              &lt;input type="text"placeholder="Name" id="name" name="name" value = { formulari.name } onChange={handleChange}/>
+            &lt;/div>
 
-            <div>
-              <label>Description: </label>
-              <input type="text" placeholder="Description" id="description" name="description" value = { formulari.description } onChange={handleChange}/>
-            </div>
+            &lt;div>
+              &lt;label>Description: &lt;/label>
+              &lt;input type="text" placeholder="Description" id="description" name="description" value = { formulari.description } onChange={handleChange}/>
+            &lt;/div>
 
-              <div>
-                <input type="number" placeholder="Latitude" id="latitude" name="latitude" value = { formulari.latitude } onChange={handleChange}/>
-              </div>
+              &lt;div>
+                &lt;input type="number" placeholder="Latitude" id="latitude" name="latitude" value = { formulari.latitude } onChange={handleChange}/>
+              &lt;/div>
 
-              <div>
-                <input type="number"placeholder="Longitude" id="longitude" name="longitude" value = { formulari.longitude } onChange={handleChange}/>
-              </div>
-                <div>
-                  <input type="radio" id="visibility" name="visibility" value="1" checked onChange={handleChange}/>
-                  <label htmlFor="public">Public</label>
-                </div>
-                <div>
-                  <input type="radio" id="visibility" name="visibility" value="2" onChange={handleChange}/>
-                  <label htmlFor="private">Contacts</label>
-                </div>
-                <div>
-                  <input type="radio" id="visibility" name="visibility" value="3" onChange={handleChange}/>
-                  <label htmlFor="private">Private</label>
-                </div>
-              <div>
-                <input type="file" placeholder="Upload" id="upload" name="upload" onChange={handleChange}/>
-              </div>
+              &lt;div>
+                &lt;input type="number"placeholder="Longitude" id="longitude" name="longitude" value = { formulari.longitude } onChange={handleChange}/>
+              &lt;/div>
+                &lt;div>
+                  &lt;input type="radio" id="visibility" name="visibility" value="1" checked onChange={handleChange}/>
+                  &lt;label htmlFor="public">Public&lt;/label>
+                &lt;/div>
+                &lt;div>
+                  &lt;input type="radio" id="visibility" name="visibility" value="2" onChange={handleChange}/>
+                  &lt;label htmlFor="private">Contacts&lt;/label>
+                &lt;/div>
+                &lt;div>
+                  &lt;input type="radio" id="visibility" name="visibility" value="3" onChange={handleChange}/>
+                  &lt;label htmlFor="private">Private&lt;/label>
+                &lt;/div>
+              &lt;div>
+                &lt;input type="file" placeholder="Upload" id="upload" name="upload" onChange={handleChange}/>
+              &lt;/div>
             
-              <button onClick={updatePlace}>
+              &lt;button onClick={updatePlace}>
                 Submit
-              </button>		
+              &lt;/button>		
 
-        </form>
-      </div>		
+        &lt;/form>
+      &lt;/div>		
     
-    </>
+    &lt;/>
 )}
 
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Place">Place</a></li><li><a href="global.html#PlaceAdd">PlaceAdd</a></li><li><a href="global.html#PlaceEdit">PlaceEdit</a></li><li><a href="global.html#PlaceList">PlaceList</a></li><li><a href="global.html#PlacesGrid">PlacesGrid</a></li><li><a href="global.html#PlacesMenu">PlacesMenu</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Apr 14 2023 17:30:00 GMT+0200 (Hora d’estiu del Centre d’Europa)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

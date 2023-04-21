@@ -2,11 +2,38 @@ import React, { useContext, useState, useEffect } from 'react'
 import { UserContext } from "../userContext";
 import { useNavigate } from "react-router-dom";
 
+
+/**
+ * This is a function for adding a new place object.
+ * @function
+ * @component
+ */
+
 export function PlaceAdd () {
+
+
+/**
+ * Declares the state variable using the hooks  useParams, useState, useContext and useNavigate.
+ * @type {const} 
+ * @type {variable}
+ * @property {object} formulari
+ * @property {object} authoken
+ * @property {object} error
+ * @property {variable} navigate
+*/
   let [formulari, setFormulari] = useState({});
   let { authToken,setAuthToken } = useContext(UserContext);
   let [error, setError] = useState("");
+
+
   let navigate = useNavigate();
+
+/**
+   * A function that updates the form state variable
+   * when a form field is changed.
+   * @function
+   * @param {Object} e - The event object
+   */
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -27,6 +54,14 @@ export function PlaceAdd () {
           })
       }
   }
+
+  /**
+   * A function that sends a POST request to the backend API
+   * to add a new place.
+   * @function
+   * @requires authoken as authoritzation, its previously given by the state variable previously delared.
+   * @param {Object} e - The event object
+   */
     const addPlace = async(e) => {
       e.preventDefault();
       let {name,description,upload,latitude,longitude,visibility=1}=formulari;
@@ -62,6 +97,12 @@ export function PlaceAdd () {
       }
       
     }
+
+    /**
+   * This hook runs after the component has mounted (only once), and after getting the user's coordenades from the method "getCurrentPosition"
+   * sets the latitude and longitude fields of form.
+   * @function
+   */
     useEffect(() => {
       addPlace();
       navigator.geolocation.getCurrentPosition( (pos )=> {
@@ -80,6 +121,8 @@ export function PlaceAdd () {
 
     }, [])
 
+  // Render the component
+  
   return (
     <div>
         <div>

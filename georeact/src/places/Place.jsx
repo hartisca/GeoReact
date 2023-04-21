@@ -3,8 +3,13 @@ import { useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
 import { Link } from 'react-router-dom';
 
-
+/**
+ * Declares the atributes of the object Place and the state variables.
+ * @funcion
+ * @component
+ */
 export function Place () {
+
   let { id } = useParams();
   let {usuari,setUsuari,authToken,setAuthToken } = useContext(UserContext)
   let {isLoading, setIsLoading} = useState(true);
@@ -18,8 +23,13 @@ export function Place () {
     reviews_count:"",
     file:{filepath:""}
   });
-
-  
+/**
+ * This function provides the Place object to components that requires it,
+ * 
+ * @function
+ * @returns {object} Place
+ */
+//
   const getPlace = async () => {
     try{
       const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
