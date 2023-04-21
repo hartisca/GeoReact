@@ -1,65 +1,55 @@
 import React, { useContext } from 'react'
 import '../styles/loginRegister.css'
-import { useState } from 'react'
+//import { useForm } from '../hooks/useForm'
+import useLogin from '../hooks/useLogin'
+import { useForm } from "react-hook-form";
 import { UserContext } from '../userContext';
 
 
-export default function Login({setRegister}) {   
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
-  let { userEmail, setUserEmail, authToken, setAuthToken } = useContext(UserContext)
+export default function Login({setRegister}) {     
+  
+  let { authToken, setAuthToken } = useContext(UserContext);
+  
+  /*
+  const { formState, onInputChange, resetForm } = useForm({
+    email: "",    
+    password: "",    
+  });
+  const {email,password} = formState */
 
-  const sendLogin = async(e) => {
-    try{
-      e.preventDefault();
+  const { register, handleSubmit } = useForm();
+  const { doLogin, error, setError} = useLogin()
+  const onSubmit = data => doLogin(data.email, data.password);
 
-        console.log("Comprovant credencials....");
-        // Enviam dades a l'aPI i recollim resultat
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          method: "POST",
-          body: JSON.stringify({ email: email, password: password })
-        });
-        
-        const resposta = await data.json();
-          if(resposta.success === true){
-            setAuthToken(resposta.authToken);
-            setUserEmail(email);
-          }else{
-              const errores = document.getElementsByClassName("errores")[0];
-              errores.innerHTML = resposta.message;
-              errores.removeAttribute('hidden');           
-            }}
-    catch (error){
-      console.error(error)
-      console.log('Error');
-    }
-  };
+  //let {doLogin} = useLogin();
+
   return (
     <>
         <h2>Login: </h2>
         <form className='form'>
             <div className='form-body'>              
                 <label> Email: </label>
-                <input type="email" name="email" onChange={(e) => {
-                  setEmail(e.target.value);}}/>   
+                <input type="email" {...register("email")}
+                  //name="email" 
+                  //onChange={onInputChange}
+                />   
                          
                 <br></br>      
                 <label>Password: </label>
-                <input type="password" name="password" onChange={(e) => {
-                  setPassword(e.target.value);}}/>                              
+                <input type="password" {...register("password")}
+                  //name="password" 
+                  //onChange={onInputChange}
+                />                              
             </div>
             <div className='errores' hidden></div>  
             <div className="footer">
+              <button onClick ={ handleSubmit(onSubmit)}> Fes Login </button>  
               <button
                 onClick={(e) => {
-                  sendLogin(e);
+                  resetForm(e);
                 }}>
-                Fes Login
-              </button>            
+                Buida                
+              </button>          
             </div>
         </form>
         

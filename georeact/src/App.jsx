@@ -9,8 +9,7 @@ import { PlaceAdd } from "./places/PlaceAdd";
 import { PlaceEdit  } from "./places/PlaceEdit"; 
 import { PlacesList } from "./places/PlacesList";
 
-import { Place  } from "./places/Place"; 
- 
+import { Place  } from "./places/Place";  
 
 import './styles/loginRegister.css'
 import "./App.css";
@@ -29,10 +28,11 @@ import PostsList from './Posts/PostsList';
 import CommentAdd from './Posts/Comentaris/CommentAdd';
 import CommentList from './Posts/Comentaris/CommentList';
 
+import ToDos from "./todos/ToDos";
+import { PostMarks } from "./Posts/Marks/PostMarks";
 
 
-export default function App() {
-  
+export default function App() {  
 
   let [ authToken, setAuthToken ] = useState("");
   let [ usuari, setUsuari ] = useState("");
@@ -44,7 +44,7 @@ export default function App() {
   return (
     <>
       <UserContext.Provider
-        value = { { usuari, setUsuari, authToken, setAuthToken, email,setUserEmail } }
+        value = { { usuari, setUsuari, authToken, setAuthToken, email, setUserEmail } }
         // { authToken, setAuthToken } equival a  { authToken: authToken, setAuthToken:setAuthToken}
       >
         {authToken ? (
@@ -74,6 +74,8 @@ export default function App() {
                 <Route path="/places/:id" element={  <> <PlacesMenu/> <Place/>  </> }/>
                 <Route path="/places/edit/:id" element={  <> <PlacesMenu/> <PlaceEdit/>  </> }/>
                 
+                <Route path='/todos'element={<ToDos />}/>
+                <Route path='/posts/marks' element={<PostMarks />}/>
 
               </Routes>
             </div>

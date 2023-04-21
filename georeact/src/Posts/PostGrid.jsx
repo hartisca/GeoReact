@@ -10,9 +10,18 @@ import { BsEye } from 'react-icons/bs';
 import { FcFullTrash } from 'react-icons/fc';
 import { CiEdit } from 'react-icons/ci';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilter } from '../slices/posts/postSlice';
 
-export const PostGrid = ({ post, deletePost }) => {
+
+export const PostGrid = ({ post }) => {
     let { usuari, setUsuari, authToken, setAuthToken, email, setUserEmail } = useContext(UserContext)
+    const dispatch = useDispatch();
+    const {filter} = useSelector((state) => state.post)
+    
+    function isOwner(post) {
+        return post.author.email == usuari
+    }
     return(
         <>
             <div className="containerGrid">
@@ -28,7 +37,7 @@ export const PostGrid = ({ post, deletePost }) => {
                 <div>
                     <Link to={"/posts/" +post.id}><BsEye /></Link>  
                     {(email == post.author.email) ?
-                    <Link to={"/posts/edit/" + post.id}><CiEdit /></Link>
+                        <Link to={"/posts/edit/" + post.id}><CiEdit /></Link>
                     : <div></div>
                     }
 
@@ -38,7 +47,14 @@ export const PostGrid = ({ post, deletePost }) => {
                     }}><FcFullTrash /></i>
                     : <div></div>
                     }
-                </div>              
+                </div> 
+                <div><button onClick={((e) => {
+                    e.preventDefault;
+                    dispatch(setFilter({...filter,author:post.author.id}))
+                    console.log(post.author);
+                })}>Veure Posts de l'usuari</button>
+                
+                </div>             
             </div>
             
         </>

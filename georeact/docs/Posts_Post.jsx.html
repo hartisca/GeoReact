@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Posts/Post.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Posts/Post.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useContext, useEffect, useState, useReducer } from 'react'
+import { useLocation, useParams } from 'react-router-dom';
+import { UserContext } from '../userContext';
+import  CommentList  from './Comentaris/CommentList'
+
+import { FcLike } from 'react-icons/fc';
+import { FcFullTrash } from 'react-icons/fc';
+import { FaSave } from 'react-icons/fa';
+
+import { useDispatch, useSelector } from "react-redux";
+import { addmark } from '../slices/postMarkSlice';
+import { ismarked } from '../slices/postMarkSlice';
+
+import { getPost } from '../slices/posts/thunks';
+
+/**
+ * This function initializes the list of post bookmarks.
+ * @returns {Array} The array of post bookmarks.
+ */
+
+const init = () => {
+  // Si localstorage tornes null tornariem un array buit
+  return JSON.parse(localStorage.getItem("postmarks")) || [];
+};
+
+
+/**
+ * React component that displays a post and allows it to be added to post bookmarks.
+ */
+function Post() {
+  // Get the current post bookmark and post state from Redux.
+  const { postMarks, isMarked } = useSelector(state => state.postMarks);
+  const { post, isLoading } = useSelector(state => state.post);
+
+  // Get the current pathname with react-router-dom.
+  const { pathname } = useLocation();
+  const dispatch = useDispatch();
+
+  // Get the current post ID from react-router-dom.
+  const { id } = useParams();  
+  let { email, setEmail, authToken, setAuthToken } = useContext(UserContext);
+
+  let [refresh,setRefresh] = useState(false)
+
+
+   /**
+   * Function that adds the current post to post bookmarks.
+   */
+  const anotaPost = () => {
+        
+    const dada = {
+      id: post.id,
+      body: post.body,
+      ruta: pathname,
+    };
+
+    dispatch(addmark( dada))
+    console.log(dada);
+    alert("Has añadido este post a tus marcados!")
+  };
+
+  
+  useEffect(() => { 
+    dispatch(getPost(authToken, id)); 
+  }, [refresh]);
+  
+  useEffect(() => {
+    dispatch(ismarked(id));
+    localStorage.setItem('postmarks', JSON.stringify(postMarks));
+  }, [postMarks]);
+
+  /**
+   * Asynchronous function that deletes the post with the specified ID.
+   * @param {string} id - The ID of the post to delete.
+   */
+  
+  const deletePost = async(id) => {
+    try{
+      
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/"+ id, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer '  + authToken,
+        },
+        method: "DELETE"
+      })
+
+      const resposta = await data.json();
+      if (resposta.success === true)
+        console.log(resposta),
+        alert("Se ha eliminat correctament."),
+        setRefresh(!refresh);
+      
+      else alert("La resposta no a triomfat");
+
+    }catch{
+      console.log("Error");
+      alert("catch");  
+    }
+  }
+
+
+  return (
+
+    &lt;>{(isLoading == true) ? &lt;div>Carregant dades...&lt;/div> : 
+
+    &lt;div className='containerGridandcomment'>
+      &lt;img className="imgGrid" src={"https://backend.insjoaquimmir.cat/storage/" + post.file.filepath } alt={ post.file.id } width="300"/>
+        &lt;p>Autor: {post.author.name}&lt;/p>
+        &lt;p>Latitud: {post.latitude}&lt;/p>
+        &lt;p>Longitud: {post.longitude}&lt;/p>
+        &lt;div className="iconosGridDer">
+              { !isMarked ? (&lt;button
+                  className="buttonicon"
+                  onClick={(e) => anotaPost(e)}
+                >
+                  &lt;FaSave className='icButtonSave'/>
+                &lt;/button>) : (&lt;button
+                  className="buttonicon"
+                >
+                  &lt;FaSave className='icButtonSaved'/>
+                &lt;/button>)}
+              &lt;/div>
+        &lt;div className='InfoPost'>
+            &lt;p>Descripció: &lt;/p>
+            {post.body}    
+        &lt;/div>
+          &lt;FcLike />{post.likes_count}  
+        &lt;div>
+          {(email == post.author.email) ?
+            &lt;i onClick={() => {
+                deletePost(post.id);
+            }}>&lt;FcFullTrash />&lt;/i>
+            : &lt;div>&lt;/div>
+            }
+        &lt;/div>  
+        
+          &lt;div className='commentContainer'>&lt;CommentList id={post.id}/>&lt;/div>                
+    &lt;/div>
+  }
+  &lt;/> 
+)
+}
+
+export default Post
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CommentList">CommentList</a></li><li><a href="global.html#Post">Post</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#initialState">initialState</a></li><li><a href="global.html#postSlice">postSlice</a></li><li><a href="global.html#useFetch">useFetch</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Apr 13 2023 19:23:46 GMT+0200 (Hora d’estiu del Centre d’Europa)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

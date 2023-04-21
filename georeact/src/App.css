@@ -1,3 +1,5 @@
+
+
 #root {
   /*max-width: 1280px;*/
   margin: 0 auto;
@@ -119,11 +121,44 @@ header p{
   border-radius: 5px;
   background-color: #684abb9a;
   height: 70%;
-  width: 30%;
+ 
   border-radius: 10px;
   backdrop-filter: blur(10px);
   padding: 5px 5px;
   box-shadow: 0 0 15px rgb(0, 0, 0);
+}
+
+.containerGridandcomment{
+  align-items: center;
+  justify-content: center;
+}
+
+.icButtonSave {
+	color: green;
+	font-size: 2.5em;
+	
+}
+.icButtonSaved {
+	color: red;
+	font-size: 2.5em;
+}
+
+.paginaList{
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;    
+ 
+}
+
+.btn5{
+  background-color: rgb(201, 241, 214);
+  border: 1px solid rgb(43, 104, 124);
+  margin: 2px;
+}
+.btn6{
+  background-color: rgb(225, 187, 172);
+  border: 1px solid rgb(230, 157, 203);
+  margin: 2px;
 }
 
 
